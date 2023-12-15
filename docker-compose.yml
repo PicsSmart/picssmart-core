@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+
+    # Database - Mongo DB
+    mongo:
+        image: mongo:6.0.3
+        container_name: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        user: "${UID}:${GID}"
+        volumes:
+            - ./mongo-data/:/data/db/
+            - ./mongo-init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: picssmartadmin
+            MONGO_INITDB_ROOT_PASSWORD: picssmartpw
+            MONGO_INITDB_DATABASE: picssmartpw
+
+    # Database Manager
+    mongo-express:
+        image: mongo-express
+        container_name: mongo-express
+        restart: always
+        ports:
+            - 8081:8081
+        depends_on:
+            - mongo
+        environment:
+            ME_CONFIG_MONGODB_PORT: 27017
+            ME_CONFIG_MONGODB_ADMINUSERNAME: picssmartadmin
+            ME_CONFIG_MONGODB_ADMINPASSWORD: picssmartpw
+            ME_CONFIG_MONGODB_URL: mongodb://picssmartadmin:picssmartpw@mongo:27017/
+        links:
+            - mongo
+
+
+    # # AI Album server
+    # al-album:
+    #     build: ./server/ 
+    #     hostname: ai-album
+    #     restart: always
+    #     container_name: ai-album

@@ -3,6 +3,10 @@ import { Label } from '@mui/icons-material';
 
 const Labels = () => {
 
+    const deleteHandler = (id) => {
+        console.log(`delete label ${id}`);
+    };
+
     const icon = <Label style={{
         color: 'picsmart.main',
         fontSize: '1.25rem',
@@ -30,7 +34,7 @@ const Labels = () => {
     ]
     return (
         <div>
-            <ItemsTable data={albumItems} icon={icon}/>
+            <ItemsTable data={albumItems} icon={icon} deleteHandler={deleteHandler}/>
         </div>
     );
 }

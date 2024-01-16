@@ -35,10 +35,12 @@ services:
         links:
             - mongo
 
-
-    # # AI Album server
-    # al-album:
-    #     build: ./server/ 
-    #     hostname: ai-album
-    #     restart: always
-    #     container_name: ai-album
+    # Qdrant vector database
+    qdrant:
+        image: qdrant/qdrant
+        container_name: qdrant
+        restart: always
+        ports:
+            - 6333:6333
+        volumes:
+            - ./qdrant-data/:/qdrant/storage

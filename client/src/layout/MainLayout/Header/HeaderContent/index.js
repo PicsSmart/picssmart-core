@@ -1,38 +1,32 @@
 // material-ui
-import { Box, IconButton, Link, useMediaQuery } from '@mui/material';
-import { GithubOutlined } from '@ant-design/icons';
-
+import { Box, Button, useMediaQuery, IconButton } from '@mui/material';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 // project import
 import Search from './Search';
-import Profile from './Profile';
-import Notification from './Notification';
-import MobileSection from './MobileSection';
+// import Profile from './Profile';
 
 // ==============================|| HEADER - CONTENT ||============================== //
 
 const HeaderContent = () => {
-  const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('lg'));
 
   return (
     <>
-      {!matchesXs && <Search />}
-      {matchesXs && <Box sx={{ width: '100%', ml: 1 }} />}
+      <Search />
+      <Box sx={{ width: '100%', ml: 1 }} />
 
-      <IconButton
-        component={Link}
-        href="https://github.com/codedthemes/mantis-free-react-admin-template"
-        target="_blank"
-        disableRipple
-        color="secondary"
-        title="Download Free Version"
-        sx={{ color: 'text.primary', bgcolor: 'grey.100' }}
-      >
-        <GithubOutlined />
-      </IconButton>
+      {/* make the text dissapear when the breakpoint is reached */}
+      
+      {!matchesXs&&
+      <Button component="label" variant="contained" color='picsmart' sx={{width:"30%"}} startIcon={<CreateNewFolderIcon />}>
+        Mount Storage
+      </Button>}
 
-      <Notification />
-      {!matchesXs && <Profile />}
-      {matchesXs && <MobileSection />}
+      {matchesXs&&
+      <IconButton aria-label="mount" size="large" sx={{color:'white'}}>
+        <CreateNewFolderIcon/>
+      </IconButton>}
+      {/* <Profile /> */}
     </>
   );
 };

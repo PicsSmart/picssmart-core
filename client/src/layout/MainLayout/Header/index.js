@@ -17,9 +17,6 @@ const Header = ({ open, handleDrawerToggle }) => {
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const iconBackColor = 'grey.100';
-  const iconBackColorOpen = 'grey.200';
-
   // common header
   const mainHeader = (
     <Toolbar>
@@ -28,10 +25,9 @@ const Header = ({ open, handleDrawerToggle }) => {
         aria-label="open drawer"
         onClick={handleDrawerToggle}
         edge="start"
-        color="secondary"
-        sx={{ color: 'text.primary', bgcolor: open ? iconBackColorOpen : iconBackColor, ml: { xs: 0, lg: -2 } }}
+        sx={{ color: 'picsmart.main', bgcolor: 'white', ml: { xs: 0, lg: -2 } }}
       >
-        {!open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        {!open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined color='picsmart'/>}
       </IconButton>
       <HeaderContent />
     </Toolbar>
@@ -40,7 +36,7 @@ const Header = ({ open, handleDrawerToggle }) => {
   // app-bar params
   const appBar = {
     position: 'fixed',
-    color: 'inherit',
+    color: 'picsmart',
     elevation: 0,
     sx: {
       borderBottom: `1px solid ${theme.palette.divider}`

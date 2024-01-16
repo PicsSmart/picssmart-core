@@ -2,26 +2,26 @@
 import { Box, FormControl, InputAdornment, OutlinedInput } from '@mui/material';
 
 // assets
-import { SearchOutlined } from '@ant-design/icons';
-
+import SearchIcon from '@mui/icons-material/Search';
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
 const Search = () => (
-  <Box sx={{ width: '100%', ml: { xs: 0, md: 1 } }}>
-    <FormControl sx={{ width: { xs: '100%', md: 224 } }}>
+  <Box sx={{ width: '100%', ml: { xs: 1, md: 2 } }}>
+    <FormControl sx={{ width: { xs: '100%', md: '100%' } }}>
       <OutlinedInput
+        style={{color:'white'}}
         size="small"
         id="header-search"
         startAdornment={
           <InputAdornment position="start" sx={{ mr: -0.5 }}>
-            <SearchOutlined />
+            <SearchIcon style={{color:'white'}}/>
           </InputAdornment>
         }
         aria-describedby="header-search-text"
         inputProps={{
           'aria-label': 'weight'
         }}
-        placeholder="Ctrl + K"
+        placeholder="Search"
       />
     </FormControl>
   </Box>

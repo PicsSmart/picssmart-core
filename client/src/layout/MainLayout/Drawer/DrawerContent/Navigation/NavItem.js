@@ -34,7 +34,7 @@ const NavItem = ({ item, level }) => {
   };
 
   const Icon = item.icon;
-  const itemIcon = item.icon ? <Icon style={{ fontSize: drawerOpen ? '1rem' : '1.25rem' }} /> : false;
+  const itemIcon = item.icon ? <Icon style={{ fontSize: drawerOpen ? '1.25rem' : '1.5rem' }} /> : false;
 
   const isSelected = openItem.findIndex((id) => id === item.id) > -1;
   // active menu item on page load
@@ -45,8 +45,8 @@ const NavItem = ({ item, level }) => {
     // eslint-disable-next-line
   }, [pathname]);
 
-  const textColor = 'text.primary';
-  const iconSelectedColor = 'primary.main';
+  const textColor = 'text.picsmart';
+  const iconSelectedColor = 'picsmart.main';
 
   return (
     <ListItemButton
@@ -60,15 +60,15 @@ const NavItem = ({ item, level }) => {
         py: !drawerOpen && level === 1 ? 1.25 : 1,
         ...(drawerOpen && {
           '&:hover': {
-            bgcolor: 'primary.lighter'
+            bgcolor: 'picsmart.lighter'
           },
           '&.Mui-selected': {
-            bgcolor: 'primary.lighter',
-            borderRight: `2px solid ${theme.palette.primary.main}`,
+            bgcolor: 'picsmart.lighter',
+            borderRight: `2px solid ${theme.palette.picsmart.main}`,
             color: iconSelectedColor,
             '&:hover': {
               color: iconSelectedColor,
-              bgcolor: 'primary.lighter'
+              bgcolor: 'picsmart.lighter'
             }
           }
         }),

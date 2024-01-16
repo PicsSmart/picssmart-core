@@ -1,4 +1,5 @@
 // ==============================|| PRESET THEME - THEME SELECTOR ||============================== //
+import picsmartColors from "themes/colors";
 
 const Theme = (colors) => {
   const { blue, red, gold, cyan, green, grey } = colors;
@@ -85,7 +86,8 @@ const Theme = (colors) => {
       darker: green[9],
       contrastText
     },
-    grey: greyColors
+    grey: greyColors,
+    picsmart: picsmartColors
   };
 };
 

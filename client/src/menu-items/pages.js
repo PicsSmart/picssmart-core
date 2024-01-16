@@ -1,59 +1,61 @@
 // assets
-import { LoginOutlined, ProfileOutlined } from '@ant-design/icons';
+import { Home, Folder, AccountCircle, Star, Label} from '@mui/icons-material';
 
 // icons
 const icons = {
-  LoginOutlined,
-  ProfileOutlined
+  HomeIcon : Home,
+  FolderIcon : Folder,
+  AccountCircleIcon : AccountCircle,
+  StarIcon : Star,
+  LabelIcon : Label
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
 
 const pages = {
-  id: 'authentication',
+  id: 'tabs',
   type: 'group',
   children: [
     {
       id: 'home1',
       title: 'Home',
       type: 'item',
-      url: '/login',
-      icon: icons.LoginOutlined,
-      target: true
+      url: '/',
+      icon: icons.HomeIcon,
+      target: false
     },
     {
       id: 'albums1',
       title: 'Albums',
       type: 'item',
-      url: '/login',
-      icon: icons.LoginOutlined,
-      target: true
-    },
-    {
-      id: 'favourites1',
-      title: 'Favourites',
-      type: 'item',
-      url: '/login',
-      icon: icons.LoginOutlined,
-      target: true
-    },
-    {
-      id: 'labels1',
-      title: 'Labels',
-      type: 'item',
-      url: '/login',
-      icon: icons.LoginOutlined,
-      target: true
+      url: '/albums',
+      icon: icons.FolderIcon,
+      target: false
     },
     {
       id: 'people1',
       title: 'People',
       type: 'item',
-      url: '/login',
-      icon: icons.LoginOutlined,
-      target: true
+      url: '/people',
+      icon: icons.AccountCircleIcon,
+      target: false
     },
-
+    {
+      id: 'favourites1',
+      title: 'Favourites',
+      type: 'item',
+      url: '/favourites',
+      icon: icons.StarIcon,
+      target: false
+    },
+    {
+      id: 'labels1',
+      title: 'Labels',
+      type: 'item',
+      url: '/labels',
+      icon: icons.LabelIcon,
+      target: false
+    }
   ]
 };
 

@@ -6,6 +6,7 @@ import { presetPalettes } from '@ant-design/colors';
 
 // project import
 import ThemeOption from './theme';
+import picsmartColors from './colors';
 
 // ==============================|| DEFAULT THEME - PALETTE  ||============================== //
 
@@ -43,7 +44,8 @@ const Palette = (mode) => {
       text: {
         primary: paletteColor.grey[700],
         secondary: paletteColor.grey[500],
-        disabled: paletteColor.grey[400]
+        disabled: paletteColor.grey[400],
+        picsmart: '#6E2EF4'
       },
       action: {
         disabled: paletteColor.grey[300]
@@ -53,7 +55,8 @@ const Palette = (mode) => {
         paper: paletteColor.grey[0],
         default: paletteColor.grey.A50
       }
-    }
+    },
+    picsmart: picsmartColors
   });
 };
 

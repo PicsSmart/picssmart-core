@@ -20,10 +20,11 @@ const DrawerHeader = ({ open }) => {
         <Logo />
         <Chip
           label={process.env.REACT_APP_VERSION}
+          color=  'picsmart'
           size="small"
           sx={{ height: 16, '& .MuiChip-label': { fontSize: '0.625rem', py: 0.25 } }}
           component="a"
-          href="https://github.com/codedthemes/mantis-free-react-admin-template"
+          href="https://github.com/Media-Cloud-FYP/PicsSmart.git"
           target="_blank"
           clickable
         />

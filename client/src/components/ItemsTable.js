@@ -7,8 +7,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Button } from '../../node_modules/@mui/material/index';
 
-const ItemsTable = ({ data, icon, deleteHandler }) => {
+const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
   return (
     <TableContainer component={Paper}>
       {data && data.length != 0 ? (
@@ -18,7 +19,10 @@ const ItemsTable = ({ data, icon, deleteHandler }) => {
               <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell>
                   <span style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
-                    {icon} {row.name}
+                    <Button variant="text" onClick={() => navigateHandler(row.id)} style={{ color: 'black' }}>
+                      {icon}
+                      {row.name}
+                    </Button>
                   </span>
                 </TableCell>
                 <TableCell align="left">{row.count} photos</TableCell>

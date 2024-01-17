@@ -1,4 +1,6 @@
-import PeopleGrid from '../components/PeopleGrid';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import PeopleCard from 'components/PeopleCard';
 
 const People = () => {
 
@@ -44,7 +46,20 @@ const People = () => {
 
   return (
     <div>
-      <PeopleGrid data={peopleItems} onClickHandler={onClickHandler} />
+      <Box sx={{ width: '100%' }}>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        {peopleItems && peopleItems.length != 0 ? (
+          peopleItems.map((row) => (
+            <Grid item xs={6} sm={3} md={2} key={row.id} onClick={() => onClickHandler(row.id)}>
+              <PeopleCard data={row} />
+            </Grid>
+          ))
+        ) : (
+          <div>No results found</div>
+        )}
+
+      </Grid>
+    </Box>
     </div>
   );
 }

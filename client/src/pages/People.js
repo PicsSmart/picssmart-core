@@ -2,10 +2,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import PeopleCard from 'components/PeopleCard';
 
+import { useNavigate } from 'react-router-dom';
+
 const People = () => {
 
+  const navigate = useNavigate();
   const onClickHandler = (id) => {
-    console.log(`show person ${id}`);
+    navigate(`/people/${id}`);
   }
 
   // dummy data

@@ -27,7 +27,7 @@ const Header = ({ open, handleDrawerToggle }) => {
         edge="start"
         sx={{ color: 'picsmart.main', bgcolor: 'white', ml: { xs: 0, lg: -2 } }}
       >
-        {!open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined color='picsmart'/>}
+        {!open ? <MenuUnfoldOutlined /> : <MenuFoldOutlined color="picsmart" />}
       </IconButton>
       <HeaderContent />
     </Toolbar>

@@ -4,17 +4,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { PropTypes } from 'prop-types';
 
 const PeopleCard = ({ data }) => {
-
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
-        <CardMedia sx={{ borderRadius: '50px', padding: '10px' }}
-          component="img"
-          image={data.face}
-          alt={data.name}
-        />
+        <CardMedia sx={{ borderRadius: '50px', padding: '10px' }} component="img" image={data.face} alt={data.name} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {data.name}
@@ -29,6 +25,15 @@ const PeopleCard = ({ data }) => {
       </CardActionArea>
     </Card>
   );
-}
+};
+
+PeopleCard.propTypes = {
+  data: PropTypes.shape({
+    face: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    photoCount: PropTypes.number.isRequired,
+    favouriteCount: PropTypes.number.isRequired
+  }).isRequired
+};
 
 export default PeopleCard;

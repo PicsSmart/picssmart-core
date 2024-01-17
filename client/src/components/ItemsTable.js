@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '../../node_modules/@mui/material/index';
+import { PropTypes } from 'prop-types';
 
 const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
   return (
@@ -46,6 +47,20 @@ const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
       )}
     </TableContainer>
   );
+};
+
+ItemsTable.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+      favouriteCount: PropTypes.number.isRequired
+    })
+  ).isRequired,
+  icon: PropTypes.element.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
+  navigateHandler: PropTypes.func.isRequired
 };
 
 export default ItemsTable;

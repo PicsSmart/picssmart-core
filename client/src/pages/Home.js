@@ -1,9 +1,10 @@
-import ImageCard from '../components/ImageCard';
+import ImageGallery from '../components/ImageGallery';
+import {images} from '../assets/ImageList';
 
 const Home = () => {
     return(
         <div>
-            <ImageCard />
+            <ImageGallery images={images}/>
         </div>
     )           
 }

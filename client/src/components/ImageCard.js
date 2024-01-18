@@ -20,11 +20,7 @@ const image = {
 }
 const labels = image.labels.join(', ');
 
-const ContentHeader = ()=>{
-    const [fav, setFav] = React.useState(false);
-    const handleFav = ()=>{
-        setFav(!fav);
-    }
+const ContentHeader = ({image, fav, handleFav})=>{
     return (
         <Grid container>
             <Grid xs={10}>
@@ -47,7 +43,7 @@ const ContentHeader = ()=>{
     )
 }
 
-const ContentBody = ()=>{ 
+const ContentBody = ({image})=>{ 
     return(
         <Grid container mt="1rem" rowSpacing={0.5}>
             <Grid item xs={1} sx={{display:'flex', alignItems:'top', justifyContent:'center'}}>
@@ -86,21 +82,26 @@ const ContentBody = ()=>{
     )
 }
 
-export default function ActionAreaCard() {
+export default function ImageCard({image}) {
+    const [fav, setFav] = React.useState(false);
+    const handleFav = ()=>{
+        setFav(!fav);
+    }
+
   return (
-        <Card sx={{ maxWidth: 300 }}>
-        <CardActionArea>
-            <CardMedia
-            component="img"
-            image={image.image}
-            alt="image"
-            height="140"
-            />
-            <CardContent m='4'>
-                <ContentHeader/>
-                <ContentBody/>
-            </CardContent>
-        </CardActionArea>
+        <Card sx={{ maxWidth: 280}}>
+            <CardActionArea>
+                <CardMedia
+                component="img"
+                image={image.image}
+                alt="image"
+                height="140"
+                />
+                <CardContent m='4'>
+                    <ContentHeader image={image} fav={fav} handleFav={handleFav}/>
+                    <ContentBody image={image}/>
+                </CardContent>
+            </CardActionArea>
         </Card>
   );
 }

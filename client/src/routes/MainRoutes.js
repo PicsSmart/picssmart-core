@@ -13,6 +13,8 @@ const People = Loadable(lazy(() => import('pages/People')));
 const Person = Loadable(lazy(() => import('pages/Person')));
 const Favourites = Loadable(lazy(() => import('pages/Favourites')));
 const AlbumView = Loadable(lazy(() => import('pages/AlbumView')));
+const LabelView = Loadable(lazy(() => import('pages/LabelView')));
+
 
 
 
@@ -78,6 +80,10 @@ const MainRoutes = {
     {
       path: 'albums/:id',
       element: <AlbumView />
+    },
+    {
+      path: 'labels/:id',
+      element: <LabelView />
     }
   ]
 };

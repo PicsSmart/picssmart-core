@@ -9,7 +9,7 @@ import People from 'pages/People';
 import Person from 'pages/Person';
 
 // render - dashboard
-const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
+const Home = Loadable(lazy(() => import('pages/Home')));
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
@@ -28,20 +28,11 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <Home />
     },
     {
       path: 'color',
       element: <Color />
-    },
-    {
-      path: 'dashboard',
-      children: [
-        {
-          path: 'default',
-          element: <DashboardDefault />
-        }
-      ]
     },
     {
       path: 'sample-page',

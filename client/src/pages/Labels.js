@@ -1,6 +1,7 @@
 import ItemsTable from 'components/ItemsTable';
 import { Label } from '@mui/icons-material';
 import { useNavigate } from '../../node_modules/react-router-dom/dist/index';
+import {labelsList} from '../assets/LabelsList';
 
 const Labels = () => {
   const navigate = useNavigate();
@@ -22,29 +23,9 @@ const Labels = () => {
     />
   );
 
-  const albumItems = [
-    {
-      id: 1,
-      name: 'Elephant',
-      count: 20,
-      favouriteCount: 5
-    },
-    {
-      id: 2,
-      name: 'Car',
-      count: 104,
-      favouriteCount: 56
-    },
-    {
-      id: 3,
-      name: 'Machine',
-      count: 132,
-      favouriteCount: 97
-    }
-  ];
   return (
     <div>
-      <ItemsTable data={albumItems} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
+      <ItemsTable data={labelsList} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
     </div>
   );
 };

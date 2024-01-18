@@ -6,6 +6,7 @@ import torch
 from lavis.models import load_model_and_preprocess
 
 from server import conf
+from server.vectorDB import create_collection, upsert
 
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
@@ -40,27 +41,16 @@ def vectorizing_images(task_dir):
 
     
 def runner(task_dir, killer):
-    client = QdrantClient(host=conf.qdrant_host, port=conf.qdrant_port)
-    collection = conf.qdrant_collection
-    try:
-        picsSmartCollection = client.create_collection(
-            collection_name=collection,
-            vectors_config=models.VectorParams(size=256, distance=models.Distance.COSINE)
-        )
-        LOG.debug(f"Created collection {collection}")
-    except:
-        LOG.debug(f"Collection {collection} already exists")
+    collection_name = conf.qdrant_collection
+    result = create_collection(collection_name)
+    if (result):
+        LOG.debug(f"Created collection {collection_name}")
+    else:
+        LOG.debug(f"Collection {collection_name} already exists")
 
     LOG.debug(f"Starting vectorizing the images")
     index, data, payload = vectorizing_images(task_dir)
-    client.upsert(
-        collection_name=collection,
-        points=models.Batch(
-            ids=index,
-            vectors=data,
-            payloads=payload
-        )
-    )
+    upsert(collection_name, index, data, payload)
     LOG.debug(f"Vectorizing the images finished")
     
 def run_text_search(task_dir, killer):

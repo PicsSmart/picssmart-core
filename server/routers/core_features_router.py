@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 from server import conf
+from server.vectorDB import search
 
 from qdrant_client import QdrantClient
 
@@ -29,10 +30,10 @@ async def text_search(caption_input: Caption, limit: int = 10):
     text_input = txt_processors["eval"](caption)
     sample = {"text_input": [text_input]}
     features_text = model.extract_features(sample, mode="text")
-    hits = client.search(
-        collection_name=conf.qdrant_collection,
-        query_vector=features_text.text_embeds_proj[:,0,:].cpu().numpy()[0],
-        limit=limit
+    hits = search(
+            conf.qdrant_collection,
+            features_text.text_embeds_proj[:,0,:].cpu().numpy()[0],
+            limit
     )
     result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
 

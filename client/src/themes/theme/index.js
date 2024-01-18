@@ -1,5 +1,5 @@
 // ==============================|| PRESET THEME - THEME SELECTOR ||============================== //
-import picsmartColors from "themes/colors";
+import picsmartColors from 'themes/colors';
 
 const Theme = (colors) => {
   const { blue, red, gold, cyan, green, grey } = colors;

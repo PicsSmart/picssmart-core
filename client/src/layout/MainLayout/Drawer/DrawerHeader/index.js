@@ -20,7 +20,7 @@ const DrawerHeader = ({ open }) => {
         <Logo />
         <Chip
           label={process.env.REACT_APP_VERSION}
-          color=  'picsmart'
+          color="picsmart"
           size="small"
           sx={{ height: 16, '& .MuiChip-label': { fontSize: '0.625rem', py: 0.25 } }}
           component="a"

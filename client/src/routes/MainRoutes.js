@@ -5,6 +5,8 @@ import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import Albums from 'pages/Albums';
 import Labels from 'pages/Labels';
+import People from 'pages/People';
+import Person from 'pages/Person';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -64,6 +66,14 @@ const MainRoutes = {
     {
       path: 'icons/ant',
       element: <AntIcons />
+    },
+    {
+      path: 'people',
+      element: <People />
+    },
+    {
+      path: 'people/:id',
+      element: <Person />
     }
   ]
 };

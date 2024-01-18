@@ -56,7 +56,9 @@ const Logo = () => {
           </linearGradient>
         </defs>
       </svg> */}
-      <Typography variant="h3" color="white">PicSmart</Typography>
+      <Typography variant="h3" color="white">
+        PicSmart
+      </Typography>
     </>
   );
 };

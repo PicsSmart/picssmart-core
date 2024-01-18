@@ -1,13 +1,13 @@
 // assets
-import { Home, Folder, AccountCircle, Star, Label} from '@mui/icons-material';
+import { Home, Folder, AccountCircle, Star, Label } from '@mui/icons-material';
 
 // icons
 const icons = {
-  HomeIcon : Home,
-  FolderIcon : Folder,
-  AccountCircleIcon : AccountCircle,
-  StarIcon : Star,
-  LabelIcon : Label
+  HomeIcon: Home,
+  FolderIcon: Folder,
+  AccountCircleIcon: AccountCircle,
+  StarIcon: Star,
+  LabelIcon: Label
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //

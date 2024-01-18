@@ -3,13 +3,17 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
-import Albums from 'pages/Albums';
-import Labels from 'pages/Labels';
-import People from 'pages/People';
-import Person from 'pages/Person';
+
 
 // render - dashboard
 const Home = Loadable(lazy(() => import('pages/Home')));
+const Albums = Loadable(lazy(() => import('pages/Albums')));
+const Labels = Loadable(lazy(() => import('pages/Labels')));
+const People = Loadable(lazy(() => import('pages/People')));
+const Person = Loadable(lazy(() => import('pages/Person')));
+const Favourites = Loadable(lazy(() => import('pages/Favourites')));
+
+
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
@@ -65,6 +69,10 @@ const MainRoutes = {
     {
       path: 'people/:id',
       element: <Person />
+    },
+    {
+      path: 'favourites',
+      element: <Favourites />
     }
   ]
 };

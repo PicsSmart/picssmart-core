@@ -9,7 +9,8 @@ export const images = [
         resolution: '4032 x 3024',
         size: '3.2 MB',
         location: 'London, UK',
-        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB'
+        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB',
+        fav: true
     },
     {
         id: '1',
@@ -21,7 +22,8 @@ export const images = [
         resolution: '4032 x 3024',
         size: '3.2 MB',
         location: 'London, UK',
-        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB'
+        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB',
+        fav: true
     },
     {
         id: '1',
@@ -33,7 +35,8 @@ export const images = [
         resolution: '4032 x 3024',
         size: '3.2 MB',
         location: 'London, UK',
-        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB'
+        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB',
+        fav: false
     },
     {
         id: '1',
@@ -45,7 +48,8 @@ export const images = [
         resolution: '4032 x 3024',
         size: '3.2 MB',
         location: 'London, UK',
-        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB'
+        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB',
+        fav: false
     },
     {
         id: '1',
@@ -57,6 +61,7 @@ export const images = [
         resolution: '4032 x 3024',
         size: '3.2 MB',
         location: 'London, UK',
-        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB'
+        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB',
+        fav: false
     }
 ]

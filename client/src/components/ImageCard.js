@@ -6,21 +6,9 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, Grid, IconButton, Box } from '@mui/material';
 import {Star, StarOutline, CalendarMonth, PhotoCamera, LocationOn, Description} from '@mui/icons-material';
 
-const image = {
-        id: '1',
-        image: 'https://picsum.photos/200/300',
-        title: 'Image_123.jpg',
-        labels: ['Elephant', 'Landscape'],
-        time: 'Tue, 13th Aug 2023 - 9.35 AM GMT+2',
-        device: 'iPhone 12 Pro Max',
-        resolution: '4032 x 3024',
-        size: '3.2 MB',
-        location: 'London, UK',
-        description: 'This is a description of the imagedjejj wdnjindhjnd wdhqBDHBdjhc HDBHbewhdbWJ DbqdhbhQUJB'
-}
-const labels = image.labels.join(', ');
 
 const ContentHeader = ({image, fav, handleFav})=>{
+    const labels = image.labels.join(', ');
     return (
         <Grid container>
             <Grid xs={10}>
@@ -83,9 +71,15 @@ const ContentBody = ({image})=>{
 }
 
 export default function ImageCard({image}) {
-    const [fav, setFav] = React.useState(false);
+    const [fav, setFav] = React.useState(image.fav);
     const handleFav = ()=>{
         setFav(!fav);
+        // setImageList((prev)=>prev.map((img)=>{
+        //     if(img.id===image.id){
+        //         return {...img, fav:!img.fav}
+        //     }
+        //     return img;
+        // }))
     }
 
   return (

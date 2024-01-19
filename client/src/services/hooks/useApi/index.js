@@ -15,9 +15,8 @@ const useApi = (url, method='GET', body=null) => {
 
     const handler = methods[method];
 
-    useEffect(() => {
-        setLoading(true);
-        handler(url, body)
+    const handliingRequests = async () => {
+        await handler(url, body)
             .then((response) => {
                 setData(response.data);
             })
@@ -27,6 +26,11 @@ const useApi = (url, method='GET', body=null) => {
             .finally(() => {
                 setLoading(false);
             });
+    }
+
+    useEffect(() => {
+        setLoading(true);
+        handliingRequests();
     }, [url]);
 
     return { data, loading, error };

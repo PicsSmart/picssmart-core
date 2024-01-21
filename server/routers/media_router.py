@@ -19,7 +19,7 @@ router = APIRouter()
 
 @router.get("/media", response_class=WickORJSONResponse)
 async def get_media(sort: str = "name", skip: int = 0, limit: int = 100):
-    return WickORJSONResponse(await media.get_media({}, {"_id": 1}, sort, skip, limit))
+    return WickORJSONResponse(await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, sort, skip, limit))
 
 
 @router.get("/media/{id}")

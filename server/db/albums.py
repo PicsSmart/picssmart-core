@@ -129,8 +129,11 @@ async def get_album_media(id: str, sort: Any, skip: int, limit: int):
         {
             # custom projection
             "$project": {
-                "_id": 0,
-                "result1": 1,
+                "result1._id": 1,
+                "result1.path": 1,
+                "result1.albumIds": 1,
+                "result1.name": 1,
+                "result1.caption": 1,
             },
         },
         {

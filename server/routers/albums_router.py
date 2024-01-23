@@ -22,8 +22,11 @@ async def get_albums(
         }
     else:
         query = {}
-
-    return WickORJSONResponse(await albums.get_albums(query, sort, skip, limit))
+    
+    response = await albums.get_albums(query, sort, skip, limit)
+    for item in response:
+        item['count'] = len(await albums.get_album_media(str(item['_id']), sort, skip, limit))
+    return WickORJSONResponse(response)
 
 
 @router.get("/albums/{id}", response_class=WickORJSONResponse)

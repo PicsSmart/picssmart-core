@@ -401,9 +401,12 @@ async function handleFolderSelect() {
   if (!canceled) {
     return filePaths[0];
   }
+  return void 0;
 }
 function createWindow() {
   mainWindow = new electron.BrowserWindow({
+    width: 2e3,
+    height: 980,
     autoHideMenuBar: true,
     webPreferences: {
       preload: require$$1__namespace.join(__dirname, "../preload/preload.js"),
@@ -411,6 +414,7 @@ function createWindow() {
     }
   });
   mainWindow.loadURL("http://localhost:5173");
+  mainWindow.webContents.openDevTools();
   mainWindow.on("closed", () => mainWindow = null);
 }
 electron.app.whenReady().then(() => {

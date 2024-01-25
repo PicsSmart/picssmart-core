@@ -11,10 +11,13 @@ async function handleFolderSelect() {
   if (!canceled) {
     return filePaths[0];
   }
+  return undefined;
 }
 
 function createWindow() {
   mainWindow = new BrowserWindow({
+    width: 2000,
+    height: 980,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, '../preload/preload.js'),
@@ -24,6 +27,7 @@ function createWindow() {
 
   // Vite dev server URL
   mainWindow.loadURL('http://localhost:5173');
+  mainWindow.webContents.openDevTools();
   mainWindow.on('closed', () => mainWindow = null);
 }
 

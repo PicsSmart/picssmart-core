@@ -9,6 +9,10 @@ mongo_db_password = os.getenv("mongo_db_password")
 mongo_db_database = os.getenv("mongo_db_database")
 mongo_db_auth = os.getenv("mongo_db_auth")
 
+qdrant_host= os.getenv("qdrant_host")
+qdrant_port = int(os.getenv("qdrant_port"))
+qdrant_collection = os.getenv("qdrant_collection")
+
 # gpu/cpu configs
 image_captioning_workers_per_gpu = 4
 face_detection_workers_per_device = 1

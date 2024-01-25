@@ -15,11 +15,12 @@ from server import CWD, thread_pool_executor, process_pool_executor
 
 
 from server.db import async_client, client
-from server.routers import albums_router, media_router, faces_router
+from server.routers import albums_router, media_router, faces_router, core_features_router
 from server.indexing import image_captioning
 from server.indexing import face_detection
 from server.indexing import file_indexer
 from server.indexing import face_clustering
+from server.indexing import image_text_search
 
 
 LOG = logging.getLogger(__name__)
@@ -43,6 +44,8 @@ def run_each_task(cwd, thread_killer, process_killer):
         face_clustering.run_face_clustering(cwd, thread_killer)
     if not thread_killer.is_set():
         image_captioning.run_image_captioning(cwd, process_killer)
+    # if not thread_killer.is_set():
+    #     image_text_search.run_text_search(cwd, process_killer)
     pass
 
 
@@ -87,6 +90,7 @@ def create_app():
     app.include_router(albums_router.router)
     app.include_router(media_router.router)
     app.include_router(faces_router.router)
+    app.include_router(core_features_router.router)
 
     @app.on_event("startup")
     async def startup():

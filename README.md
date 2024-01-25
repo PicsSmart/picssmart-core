@@ -2,7 +2,7 @@
 
 # Setup
 
-## python dependencies
+## Create the conda environment
 
 ```bash
 conda env create -f picssmart-env.yaml

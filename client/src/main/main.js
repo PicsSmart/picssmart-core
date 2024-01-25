@@ -1,11 +1,25 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import * as path from 'path';
 import 'dotenv/config'
 
 let mainWindow;
 
+async function handleFolderSelect() {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openDirectory']
+  });
+  if (!canceled) {
+    return filePaths[0];
+  }
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
+    autoHideMenuBar: true,
+    webPreferences: {
+      preload: path.join(__dirname, '../preload/preload.js'),
+      webSecurity: false
+    }
   });
 
   // Vite dev server URL
@@ -14,6 +28,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  ipcMain.handle('dialog:openFolder', handleFolderSelect);
   createWindow();
 });
 

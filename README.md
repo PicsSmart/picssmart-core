@@ -5,8 +5,11 @@
 ## Create the conda environment
 
 ```bash
-conda env create -f picssmart-env.yaml
+conda env create --prefix=<prefix-name> -f picssmart-env.yaml
 ```
+
+- You can determine the prefix by running `conda env list`. It will be as follows.
+`/home/banula/mambaforge/envs/picssmart`
 
 ## post install
 

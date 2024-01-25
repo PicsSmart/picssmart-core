@@ -1,11 +1,21 @@
 import ItemsTable from '../components/ItemsTable';
 import { Folder } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { albumsList } from '../assets/AlbumsList';
+import useApi from '../services/hooks/useApi';
+import { useSelector, useDispatch } from 'react-redux';
+import {setAlbums} from '../store/reducers/albums';
+import { useEffect } from 'react';
 
 const Albums = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const albums = useSelector((state) => state.albums.albums);
+  const { data } = useApi('http://127.0.0.1:8000/albums', 'GET');
 
+  useEffect(() => {
+    dispatch(setAlbums({ albums: data }));
+  }, [data]);
+
+  const navigate = useNavigate();
   const navigateHandler = (id) => {
     navigate(`/albums/${id}`);
   };
@@ -26,7 +36,7 @@ const Albums = () => {
   return (
     <div>
       <h1>Albums</h1>
-      <ItemsTable data={albumsList} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
+      <ItemsTable data={albums} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
     </div>
   );
 };

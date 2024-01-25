@@ -40,22 +40,22 @@ const pages = {
       icon: icons.AccountCircleIcon,
       target: false
     },
-    {
-      id: 'favourites1',
-      title: 'Favourites',
-      type: 'item',
-      url: '/favourites',
-      icon: icons.StarIcon,
-      target: false
-    },
-    {
-      id: 'labels1',
-      title: 'Labels',
-      type: 'item',
-      url: '/labels',
-      icon: icons.LabelIcon,
-      target: false
-    }
+    // {
+    //   id: 'favourites1',
+    //   title: 'Favourites',
+    //   type: 'item',
+    //   url: '/favourites',
+    //   icon: icons.StarIcon,
+    //   target: false
+    // },
+    // {
+    //   id: 'labels1',
+    //   title: 'Labels',
+    //   type: 'item',
+    //   url: '/labels',
+    //   icon: icons.LabelIcon,
+    //   target: false
+    // }
   ]
 };
 

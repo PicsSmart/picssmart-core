@@ -6,7 +6,6 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    autoHideMenuBar: true,
   });
 
   // Vite dev server URL

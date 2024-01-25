@@ -9,19 +9,19 @@ const ItemsTable = ({ data, icon, deleteHandler, navigateHandler }) => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {data.map((row) => (
-              <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell>
                   <span style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
-                    <Button variant="text" onClick={() => navigateHandler(row.id)} style={{ color: 'black' }}>
+                    <Button variant="text" onClick={() => navigateHandler(row._id)} style={{ color: 'black' }}>
                       {icon}
                       {row.name}
                     </Button>
                   </span>
                 </TableCell>
                 <TableCell align="left">{row.count} photos</TableCell>
-                <TableCell align="left">{row.favouriteCount} favourites</TableCell>
+                <TableCell align="left">{row.favouriteCount?row.favouriteCount:0} favourites</TableCell>
                 <TableCell align="center">
-                  <IconButton aria-label="delete" onClick={() => deleteHandler(row.id)}>
+                  <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
                     <DeleteIcon
                       style={{
                         color: 'red',

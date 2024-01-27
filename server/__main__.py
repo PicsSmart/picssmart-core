@@ -21,12 +21,13 @@ from server.indexing import face_detection
 from server.indexing import file_indexer
 from server.indexing import face_clustering
 from server.indexing import image_text_search
-
+from server.jobs import scheduler
 
 LOG = logging.getLogger(__name__)
 BKG_TASKS = dict()
 TASK_KILL_THREADING = TEvent()
 TASK_KILL_MPROCESSING = MPEvent()
+scheduler.start()
 
 async_client.picssmart.albums.create_index("directory", unique=True)
 async_client.picssmart.albums.create_index("parentAlbumIds")

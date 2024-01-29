@@ -45,8 +45,8 @@ def run_each_task(cwd, thread_killer, process_killer):
         face_clustering.run_face_clustering(cwd, thread_killer)
     if not thread_killer.is_set():
         image_captioning.run_image_captioning(cwd, process_killer)
-    # if not thread_killer.is_set():
-    #     image_text_search.run_text_search(cwd, process_killer)
+    if not thread_killer.is_set():
+        image_text_search.run_text_search(cwd, process_killer)
     pass
 
 

@@ -43,7 +43,7 @@ const pages = {
     // {
     //   id: 'favourites1',
     //   title: 'Favourites',
-    //   type: 'item',
+    //   type: 'item',https://github.com/Media-Cloud-FYP/PicsSmart/pull/11
     //   url: '/favourites',
     //   icon: icons.StarIcon,
     //   target: false

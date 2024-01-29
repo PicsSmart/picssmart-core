@@ -1,6 +1,11 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import PeopleCard from '../components/PeopleCard';
+import { getFacesApi } from '../services/apiService/people';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFaces } from '../store/reducers/faces';
+import PeopleGallery from '../components/PeopleGallery';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -10,130 +15,33 @@ const People = () => {
     navigate(`/people/${id}`);
   };
 
-  // dummy data
-  const peopleItems = [
-    {
-      id: 1,
-      face: 'https://picsum.photos/200',
-      name: 'John Doe',
-      photoCount: 20,
-      favouriteCount: 5
-    },
-    {
-      id: 2,
-      face: 'https://picsum.photos/200',
-      name: 'Jane Doe',
-      photoCount: 104,
-      favouriteCount: 56
-    },
-    {
-      id: 3,
-      face: 'https://picsum.photos/200',
-      name: 'Bob Doe',
-      photoCount: 132,
-      favouriteCount: 97
-    },
-    {
-      id: 4,
-      face: 'https://picsum.photos/200',
-      name: 'John Doe',
-      photoCount: 20,
-      favouriteCount: 5
-    },
-    {
-      id: 5,
-      face: 'https://picsum.photos/200',
-      name: 'Jane Doe',
-      photoCount: 104,
-      favouriteCount: 56
-    },
-    {
-      id: 6,
-      face: 'https://picsum.photos/200',
-      name: 'Bob Doe',
-      photoCount: 132,
-      favouriteCount: 97
-    },
-    {
-      id: 7,
-      face: 'https://picsum.photos/200',
-      name: 'John Doe',
-      photoCount: 20,
-      favouriteCount: 5
-    },
-    {
-      id: 8,
-      face: 'https://picsum.photos/200',
-      name: 'Jane Doe',
-      photoCount: 104,
-      favouriteCount: 56
-    },
-    {
-      id: 9,
-      face: 'https://picsum.photos/200',
-      name: 'Bob Doe',
-      photoCount: 132,
-      favouriteCount: 97
-    },
-    {
-      id: 10,
-      face: 'https://picsum.photos/200',
-      name: 'John Doe',
-      photoCount: 20,
-      favouriteCount: 5
-    },
-    {
-      id: 11,
-      face: 'https://picsum.photos/200',
-      name: 'Jane Doe',
-      photoCount: 104,
-      favouriteCount: 56
-    },
-    {
-      id: 12,
-      face: 'https://picsum.photos/200',
-      name: 'Bob Doe',
-      photoCount: 132,
-      favouriteCount: 97
-    },
-    {
-      id: 13,
-      face: 'https://picsum.photos/200',
-      name: 'John Doe',
-      photoCount: 20,
-      favouriteCount: 5
-    },
-    {
-      id: 14,
-      face: 'https://picsum.photos/200',
-      name: 'Jane Doe',
-      photoCount: 104,
-      favouriteCount: 56
-    },
-    {
-      id: 15,
-      face: 'https://picsum.photos/200',
-      name: 'Bob Doe',
-      photoCount: 132,
-      favouriteCount: 97
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
+  const faces = useSelector((state) => state.faces.faces);
+
+  const getFaces = async () => {
+    try {
+      setLoading(true);
+      const { data } = await getFacesApi();
+      dispatch(setFaces({ faces: data }));
+    } catch (exception) {
+      setError(exception);
+    } finally {  const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+      const [face, setFace] = useState(null);
+    
+      setLoading(false);
     }
-  ];
+  }
+  useEffect(() => {
+    getFaces();
+  } , []);
 
   return (
     <div>
-      <Box sx={{ width: '100%' }}>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          {peopleItems && peopleItems.length != 0 ? (
-            peopleItems.map((row) => (
-              <Grid item xs={6} sm={3} md={2} key={row.id} onClick={() => onClickHandler(row.id)}>
-                <PeopleCard data={row} />
-              </Grid>
-            ))
-          ) : (
-            <div>No results found</div>
-          )}
-        </Grid>
-      </Box>
+      <PeopleGallery faces={faces} />
     </div>
   );
 };

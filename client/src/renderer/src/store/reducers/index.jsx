@@ -5,13 +5,15 @@ import { combineReducers } from 'redux';
 import media from './media';
 import albums from './albums';
 import menu from './menu'
+import faces from './faces';
 
 // ==============================|| COMBINE REDUCERS ||============================== //
 
 const reducers = combineReducers({ 
     media,
     albums,
-    menu
+    menu,
+    faces
 });
 
 export default reducers;

@@ -1,17 +1,30 @@
 import ImageGallery from '../components/ImageGallery';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setMedia } from '../store/reducers/media';
-import useApi from '../services/hooks/useApi'
+import { getMediaApi } from '../services/apiService/media';
 
 const Home = () => {
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+
     const dispatch = useDispatch();
     const media = useSelector((state) => state.media.media);
-    const {data} = useApi('http://127.0.0.1:8000/media', 'GET')
 
+    const getMedia = async ()=>{
+        try{
+            setLoading(true)
+            const {data} = await getMediaApi()
+            dispatch(setMedia({media:data}))
+        }catch(exception){
+            setError(exception)
+        }finally{
+            setLoading(false)
+        }
+    }
     useEffect(() => {
-        dispatch(setMedia({media: data}));
-    }, [data]);
+        getMedia()
+    }, []);
 
     return(
         <div>

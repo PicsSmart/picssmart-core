@@ -1,19 +1,34 @@
 import ItemsTable from '../components/ItemsTable';
 import { Folder } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import useApi from '../services/hooks/useApi';
 import { useSelector, useDispatch } from 'react-redux';
 import {setAlbums} from '../store/reducers/albums';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
+import { getAlbumsApi } from '../services/apiService/albums';
 
 const Albums = () => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
   const dispatch = useDispatch();
   const albums = useSelector((state) => state.albums.albums);
-  const { data } = useApi('http://127.0.0.1:8000/albums', 'GET');
+  
+  const getAlbums = async ()=>{
+    try{
+      setLoading(true)
+      const {data} = await getAlbumsApi()
+      console.log(data)
+      dispatch(setAlbums({albums:data}))
+    }catch(exception){
+      setError(execption)
+    }finally{
+      setLoading(false)
+    }
+  }
 
-  useEffect(() => {
-    dispatch(setAlbums({ albums: data }));
-  }, [data]);
+  useEffect(()=>{
+    getAlbums()
+  }, [])
 
   const navigate = useNavigate();
   const navigateHandler = (id) => {

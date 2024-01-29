@@ -1,25 +1,35 @@
 import ImageGallery from '../components/ImageGallery';
-import { images } from '../assets/ImageList';
 import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { IconButton, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import useApi from '../services/hooks/useApi';
 import { useEffect, useState } from 'react';
+import { getAlbumMediaApi } from '../services/apiService/albums';
 
 const AlbumView = () => {
+  const [images, setImages] = useState()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
+
   const { id } = useParams();
   const albums = useSelector((state) => state.albums.albums);
   const album = albums.find((album) => album._id == id);
-  const [images, setImages] = useState([]);
-  const { data } = useApi(`http://127.0.0.1:8000/albums/${id}/media`, 'GET');
+
+  const getAlbumMedia = async ()=>{
+    try{
+      setLoading(true)
+      const {data} = await getAlbumMediaApi(id)
+      setImages(data)
+    }catch(exception){
+      setError(exception)
+    }
+  }
 
   useEffect(() => {
-    setImages(data);
-    console.log(data)
-  }, [data]);
+    getAlbumMedia()
+  }, []);
 
   return (
     <>

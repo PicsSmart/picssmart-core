@@ -378,9 +378,7 @@ var cliOptions = function optionMatcher(args) {
 })();
 let mainWindow;
 function createWindow() {
-  mainWindow = new electron.BrowserWindow({
-    autoHideMenuBar: true
-  });
+  mainWindow = new electron.BrowserWindow({});
   mainWindow.loadURL("http://localhost:5173");
   mainWindow.on("closed", () => mainWindow = null);
 }

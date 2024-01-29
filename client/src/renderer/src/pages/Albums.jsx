@@ -1,11 +1,36 @@
 import ItemsTable from '../components/ItemsTable';
 import { Folder } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { albumsList } from '../assets/AlbumsList';
+import { useSelector, useDispatch } from 'react-redux';
+import {setAlbums} from '../store/reducers/albums';
+import { useEffect,useState } from 'react';
+import { getAlbumsApi } from '../services/apiService/albums';
 
 const Albums = () => {
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
+  const dispatch = useDispatch();
+  const albums = useSelector((state) => state.albums.albums);
+  
+  const getAlbums = async ()=>{
+    try{
+      setLoading(true)
+      const {data} = await getAlbumsApi()
+      console.log(data)
+      dispatch(setAlbums({albums:data}))
+    }catch(exception){
+      setError(execption)
+    }finally{
+      setLoading(false)
+    }
+  }
+
+  useEffect(()=>{
+    getAlbums()
+  }, [])
+
+  const navigate = useNavigate();
   const navigateHandler = (id) => {
     navigate(`/albums/${id}`);
   };
@@ -26,7 +51,7 @@ const Albums = () => {
   return (
     <div>
       <h1>Albums</h1>
-      <ItemsTable data={albumsList} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
+      <ItemsTable data={albums} icon={icon} deleteHandler={deleteHandler} navigateHandler={navigateHandler} />
     </div>
   );
 };

@@ -14,6 +14,9 @@ const search = createSlice({
   reducers: {
     setSearch(state, action) {
         state.caption = action.payload.caption;
+    },
+    clearSearch(state) {
+      state.caption = '';
     }
   }
 });

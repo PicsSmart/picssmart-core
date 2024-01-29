@@ -1,8 +1,7 @@
 import ImageGallery from '../components/ImageGallery';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setMedia } from '../store/reducers/media';
-import { getMediaApi } from '../services/apiService/media';
+import { textSearchApi } from '../services/apiService/utilities';
 
 const Home = () => {
     const [loading, setLoading] = useState(false)
@@ -10,25 +9,34 @@ const Home = () => {
 
     const dispatch = useDispatch();
     const media = useSelector((state) => state.media.media);
+    const caption = useSelector((state) => state.search.caption);
+    const [photos, setPhotos] = useState([]);
 
-    const getMedia = async ()=>{
+    useEffect(()=>{
+        if (caption===''){
+            setPhotos(media)
+        }else{
+            textSearch()
+        }
+    }, [caption])
+
+    const textSearch = async ()=>{
         try{
             setLoading(true)
-            const {data} = await getMediaApi()
-            dispatch(setMedia({media:data}))
+            const {data} =  await textSearchApi(caption)
+            console.log(data)
+            setPhotos(data.results)
         }catch(exception){
             setError(exception)
         }finally{
             setLoading(false)
         }
     }
-    useEffect(() => {
-        getMedia()
-    }, []);
+    
 
     return(
         <div>
-            <ImageGallery images={media}/>
+            <ImageGallery images={photos}/>
         </div>
     )
 }

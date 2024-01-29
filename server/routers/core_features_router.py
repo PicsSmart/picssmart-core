@@ -5,6 +5,9 @@ from fastapi.responses import JSONResponse
 
 from server import conf
 from server.vectorDB import search
+from server.db import media
+from server.routers import WickORJSONResponse
+
 
 from qdrant_client import QdrantClient
 
@@ -21,7 +24,9 @@ class Caption(BaseModel):
 
 
 @router.post("/text_search")
-async def text_search(caption_input: Caption, limit: int = 10):
+async def text_search(caption_input: Caption, sort: str = "name", skip: int = 0, limit: int = 10):
+    if caption_input.caption == "":
+        return WickORJSONResponse(await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, sort, skip, 1000))
     client = QdrantClient(host=conf.qdrant_host, port=conf.qdrant_port)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model, vis_processors, txt_processors = load_model_and_preprocess(name="blip_feature_extractor", model_type="base", 

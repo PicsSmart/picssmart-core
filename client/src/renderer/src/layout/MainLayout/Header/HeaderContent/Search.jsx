@@ -7,7 +7,7 @@ import { setSearch } from '../../../../store/reducers/search';
 
 // assets
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // ==============================|| HEADER CONTENT - SEARCH ||============================== //
 
 const Search = () => {
@@ -21,6 +21,9 @@ const Search = () => {
     navigate('/search');
   }
 
+  useEffect(() => {
+    setCaption('');
+  } , [window.location.pathname]);
 
   return (
     <>

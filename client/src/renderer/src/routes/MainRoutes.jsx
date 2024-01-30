@@ -53,7 +53,7 @@ const MainRoutes = {
       element: <LabelView />
     },
     {
-      path: 'search',
+      path: 'search/',
       element: <Search />
     }
   ]

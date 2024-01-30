@@ -13,16 +13,7 @@ const Person = Loadable(lazy(() => import('../pages/Person')));
 const Favourites = Loadable(lazy(() => import('../pages/Favourites')));
 const AlbumView = Loadable(lazy(() => import('../pages/AlbumView')));
 const LabelView = Loadable(lazy(() => import('../pages/LabelView')));
-
-// render - sample page
-const SamplePage = Loadable(lazy(() => import('../pages/extra-pages/SamplePage')));
-
-// render - utilities
-const Typography = Loadable(lazy(() => import('../pages/components-overview/Typography')));
-const Color = Loadable(lazy(() => import('../pages/components-overview/Color')));
-const Shadow = Loadable(lazy(() => import('../pages/components-overview/Shadow')));
-const AntIcons = Loadable(lazy(() => import('../pages/components-overview/AntIcons')));
-
+const Search = Loadable(lazy(() => import('../pages/Search')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -34,32 +25,12 @@ const MainRoutes = {
       element: <Home />
     },
     {
-      path: 'color',
-      element: <Color />
-    },
-    {
-      path: 'sample-page',
-      element: <SamplePage />
-    },
-    {
       path: 'albums',
       element: <Albums />
     },
     {
       path: 'labels',
       element: <Labels />
-    },
-    {
-      path: 'shadow',
-      element: <Shadow />
-    },
-    {
-      path: 'typography',
-      element: <Typography />
-    },
-    {
-      path: 'icons/ant',
-      element: <AntIcons />
     },
     {
       path: 'people',
@@ -80,6 +51,10 @@ const MainRoutes = {
     {
       path: 'labels/:id',
       element: <LabelView />
+    },
+    {
+      path: 'search/',
+      element: <Search />
     }
   ]
 };

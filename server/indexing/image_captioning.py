@@ -10,7 +10,7 @@ import torch
 from server.db import async_client
 from server.conf import image_captioning_workers_per_gpu, supported_image_types
 from server.indexing.utils import DataLoader
-from server.federated_learning.Model import model, processor, DEVICE
+from server.federated_learning.image_captioning.Model import model, processor, DEVICE
 
 LOG = logging.getLogger(__name__)
 

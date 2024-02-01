@@ -34,5 +34,6 @@ supported_image_types = [
     "JPEG",
     "jpeg",
     "HEIC",
-    "heic"
+    "heic",
+    "png"
 ]

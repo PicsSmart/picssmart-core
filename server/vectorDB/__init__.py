@@ -36,16 +36,16 @@ def search(collection_name, data, limit=1000):
 
 def scroll(collection_name, image_id):
     results = client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(
-            must=[
-                models.FieldCondition(
-                    key="_id",
-                    match=models.MatchValue(value=image_id),
-                )
-            ]
-        ),
-        with_vectors=True
-    )
-
-    return results[0][0].vector
+        collection_name=collection_name,
+        scroll_filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="_id",
+                        match=models.MatchValue(value=image_id),
+                    )
+                ]
+            ),
+            with_vectors=True
+        )
+    if results[0] != []: return results[0][0].vector
+    return []

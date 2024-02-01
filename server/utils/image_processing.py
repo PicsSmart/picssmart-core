@@ -3,6 +3,7 @@ from io import BytesIO
 from PIL import Image, ExifTags
 
 from server.conf import thumbnail_resolution
+from server.utils import model, vis_processors, txt_processors, device
 
 
 ORIENTATION_FLAG = [k for k, v in ExifTags.TAGS.items() if v == "Orientation"][0]
@@ -55,3 +56,13 @@ def convert_to_image_stream(impath):
     im.save(stream, "jpeg")
 
     return stream
+
+def get_text_vectors(text):
+    text_input = txt_processors["eval"](text)
+    sample = {"text_input": [text_input]}
+    return model.extract_features(sample, mode="text")
+
+def get_image_vectors(image):
+    image = vis_processors["eval"](image).unsqueeze(0).to(device)
+    sample = {"image": image}
+    return model.extract_features(sample, mode="image")

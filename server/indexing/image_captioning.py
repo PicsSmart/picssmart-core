@@ -6,12 +6,11 @@ import gc
 
 from PIL import Image
 import torch
-from lavis.models import load_model_and_preprocess
 
 from server.db import async_client
 from server.conf import image_captioning_workers_per_gpu, supported_image_types
 from server.indexing.utils import DataLoader
-
+from server.federated_learning.Model import model, processor, DEVICE
 
 LOG = logging.getLogger(__name__)
 
@@ -36,12 +35,6 @@ class CaptioningWorker(Thread):
     def run(self) -> None:
         fetch = True
         LOG.debug(f"Starting image captioning worker {self.worker_id}")
-        self.model, self.vis_processors, _ = load_model_and_preprocess(
-            name="blip_caption",
-            model_type="base_coco",
-            is_eval=True,
-            device=self.device_name,
-        )
 
         while fetch and not self.killer.is_set():
             fetch = False
@@ -59,15 +52,13 @@ class CaptioningWorker(Thread):
                     .as_posix()
                 )
                 raw_image = Image.open(path).convert("RGB")
-                image = (
-                    self.vis_processors["eval"](raw_image)
-                    .unsqueeze(0)
-                    .to(self.device_name)
-                )
+                inputs = processor(images=raw_image, return_tensors="pt").to(DEVICE)
+                pixel_values = inputs.pixel_values
+
                 with torch.no_grad():
-                    captions = self.model.generate(
-                        {"image": image}, use_nucleus_sampling=True, num_captions=5
-                    )
+                    generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
+                    captions = processor.batch_decode(generated_ids, skip_special_tokens=True)
+
                 async_client.picssmart.media.update_one(
                     {"_id": entry["_id"]},
                     {
@@ -78,9 +69,6 @@ class CaptioningWorker(Thread):
                         }
                     },
                 )
-
-        del self.model
-        del self.vis_processors
 
         with torch.no_grad():
             torch.cuda.empty_cache()

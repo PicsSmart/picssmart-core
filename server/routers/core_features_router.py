@@ -4,10 +4,11 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 from server import conf
-from server.vectorDB import search
+from server.vectorDB import search, scroll
 from server.db import media
 from server.routers import WickORJSONResponse
 
+from bson import ObjectId
 
 from qdrant_client import QdrantClient
 
@@ -40,6 +41,18 @@ async def text_search(caption_input: Caption, sort: str = "name", skip: int = 0,
             features_text.text_embeds_proj[:,0,:].cpu().numpy()[0],
             limit
     )
+    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
+
+    return JSONResponse(content=result_json)
+
+@router.get("/similar-search")
+async def text_search(imageId, sort: str = "name", skip: int = 0, limit: int = 100000):
+    vector = scroll(conf.qdrant_collection, imageId)
+    hits = search(
+        conf.qdrant_collection,
+        vector,
+    )
+    
     result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
 
     return JSONResponse(content=result_json)

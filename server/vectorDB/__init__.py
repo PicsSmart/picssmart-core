@@ -26,10 +26,26 @@ def upsert(collection_name, index, data, payload):
     )
 
     
-def search(collection_name, data, limit=10):
+def search(collection_name, data, limit=1000):
     hits = client.search(
         collection_name=collection_name,
         query_vector=data,
         limit=limit
     )
     return hits
+
+def scroll(collection_name, image_id):
+    results = client.scroll(
+        collection_name=collection_name,
+        scroll_filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="_id",
+                        match=models.MatchValue(value=image_id),
+                    )
+                ]
+            ),
+            with_vectors=True
+        )
+    if results[0] != []: return results[0][0].vector
+    return []

@@ -40,3 +40,9 @@ supported_image_types = [
     "heic",
     "png"
 ]
+
+supported_scene_types = [
+    "beach",
+    "forest",
+    "mountain",
+]

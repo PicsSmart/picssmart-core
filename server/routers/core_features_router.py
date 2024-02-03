@@ -1,9 +1,15 @@
 import logging
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from fastapi import File, UploadFile
 from fastapi.responses import JSONResponse
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+from server import CWD
+from threading import Event as TEvent
+from multiprocessing import Event as MPEvent
 
 from server.utils import image_processing
+from server.utils import task_manager
 
 from PIL import Image
 from io import BytesIO
@@ -99,6 +105,11 @@ async def mount_album(request: Request):
 
     copy_images_recursively(source_folder, destination_folder)
 
-    # TODO: start threads to index images, face clustering, and image captioning
+    loop = asyncio.get_running_loop()
+    executor = ThreadPoolExecutor(max_workers=8)
+    task_waterfall = loop.run_in_executor(
+        executor, task_manager.run_each_task, CWD, TEvent(), MPEvent()
+    )
 
-    return JSONResponse(content={"message": "Album mounted successfully."})
+    return JSONResponse(content={"message": "Album is mounted and images are being processed."},
+                        status = status.HTTP_202_ACCEPTED)

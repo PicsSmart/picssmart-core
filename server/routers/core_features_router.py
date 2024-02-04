@@ -24,7 +24,7 @@ class Caption(BaseModel):
 @router.post("/text-search")
 async def text_search(caption_input: Caption, sort: str = "name", skip: int = 0, limit: int = 100000):
     if caption_input.caption == "":
-        return WickORJSONResponse(await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, sort, skip, 1000))
+        return WickORJSONResponse(await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, sort, skip))
     caption = caption_input.caption
     features_text = get_text_vectors(caption)
     hits = search(

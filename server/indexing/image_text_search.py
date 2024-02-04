@@ -22,7 +22,7 @@ async def vectorizing_images(task_dir):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model, vis_processors, txt_processors = load_model_and_preprocess(name="blip_feature_extractor", model_type="base", 
                                                                       is_eval=True, device=device)
-    content = await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, "name", 0, 1000)
+    content = await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, "name", 0)
     folder_path = os.path.join(task_dir, "data")
     payload = []
     data = []

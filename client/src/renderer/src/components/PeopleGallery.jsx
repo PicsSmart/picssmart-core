@@ -23,7 +23,7 @@ export default function PeopleGallery({ faces }) {
   return (
     <>
       {faces&&<Pagination count={Math.ceil(faces?.length/15)} defaultPage={1} color="picsmart" onChange={(e, value)=>{setPage(value)}} />}    
-      <Grid container rowSpacing={1} columnSpacing={1} columns={{ xs: 2, md: 4, lg: 5 }}>
+      <Grid container rowSpacing={1} columnSpacing={1} columns={{ xs: 2, md: 4, lg: 5 }} mt={2}>
         {currentFaces?.map((face) => (
           <Grid item key={face._id} onClick={()=>{onClickHandler(face._id)}}>
             <PeopleCard data={face} />

@@ -20,7 +20,7 @@ const cancelPreviousRequests = (url, abort = false) => {
 
 axiosProvider.interceptors.request.use(
   (config) => {
-    console.log(pendingRequests);
+    // console.log(pendingRequests);
     if (config?.pendingRequests && config?.url && !config.signal) {
       cancelPreviousRequests(config.url, true);
       const abortController = new AbortController();

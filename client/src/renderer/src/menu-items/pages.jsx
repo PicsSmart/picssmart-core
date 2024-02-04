@@ -1,6 +1,5 @@
 // assets
-import { Home, Folder, AccountCircle, Star, Label, Search } from '@mui/icons-material';
-
+import { Home, Folder, AccountCircle, Star, Label, Search, InsertPhoto } from '@mui/icons-material';
 // icons
 const icons = {
   HomeIcon: Home,
@@ -8,7 +7,8 @@ const icons = {
   AccountCircleIcon: AccountCircle,
   StarIcon: Star,
   LabelIcon: Label,
-  SearchIcon: Search
+  SearchIcon: Search,
+  InsertPhotoIcon: InsertPhoto
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
@@ -40,6 +40,13 @@ const pages = {
       url: '/people',
       icon: icons.AccountCircleIcon,
       target: false
+    },
+    {
+      id: 'scenary1',
+      title: 'Scenary',
+      type: 'item',
+      url: '/scenary',
+      icon: icons.InsertPhotoIcon,
     },
     {
       id: 'search1',

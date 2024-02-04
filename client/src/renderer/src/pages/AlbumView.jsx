@@ -33,15 +33,17 @@ const AlbumView = () => {
 
   return (
     <>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: '2rem' }}>
-        <IconButton component={Link} to="/albums">
-          <ArrowBackIosIcon />
-        </IconButton>
-        <Typography variant="h3">Album - {album.name}</Typography>
-      </Box>
-      <div>
-        <ImageGallery images={images} />
-      </div>
+      {album && <>      
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: '2rem' }}>
+          <IconButton component={Link} to="/albums">
+            <ArrowBackIosIcon />
+          </IconButton>
+          <Typography variant="h3">Album - {album?.name}</Typography>
+        </Box>
+        <div>
+          <ImageGallery images={images} />
+        </div>
+      </>}
     </>
   );
 };

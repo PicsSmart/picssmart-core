@@ -22,7 +22,9 @@ const Person = () => {
       const { data } = await getFaceGroupImagesApi(id);
       data.forEach(element => {
         const img = media.filter((photo) => photo._id === element._id)[0]
-        setPhotos((prev)=>[...prev, img]);
+        if(img){
+          setPhotos((prev)=>[...prev, img]);
+        }
       });
     } catch (exception) {
       setError(exception);

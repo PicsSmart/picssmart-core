@@ -1,6 +1,6 @@
 import axiosProvider from ".";
 
-const textSearchUrl = 'http://127.0.0.1:8000/text_search'
+const textSearchUrl = 'http://127.0.0.1:8000/text-search'
 
 export async function textSearchApi(caption){  
     try{

@@ -28,10 +28,7 @@ const People = () => {
       dispatch(setFaces({ faces: data }));
     } catch (exception) {
       setError(exception);
-    } finally {  const [loading, setLoading] = useState(false);
-      const [error, setError] = useState(null);
-      const [face, setFace] = useState(null);
-    
+    } finally {  
       setLoading(false);
     }
   }

@@ -15,7 +15,7 @@ from PIL import Image
 from io import BytesIO
 
 from server import conf
-from server.vectorDB import search, scroll
+from server.vectorDB import search, scroll, get_image_vectors, get_text_vectors
 from server.db import media
 from server.routers import WickORJSONResponse
 
@@ -36,9 +36,9 @@ class Caption(BaseModel):
 @router.post("/text-search")
 async def text_search(caption_input: Caption, sort: str = "name", skip: int = 0, limit: int = 100000):
     if caption_input.caption == "":
-        return WickORJSONResponse(await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, sort, skip, 1000))
+        return WickORJSONResponse(await media.get_media({}, {"_id": 1, "path":1, "albumIds":1, "name":1, "caption":1}, sort, skip))
     caption = caption_input.caption
-    features_text = image_processing.get_text_vectors(caption)
+    features_text = get_text_vectors(caption)
     hits = search(
             conf.qdrant_collection,
             features_text.text_embeds_proj[:,0,:].cpu().numpy()[0],
@@ -65,7 +65,7 @@ async def similarity_search_get(imageId, sort: str = "name", skip: int = 0, limi
 async def similarity_search_get_post(file: UploadFile = File(...)):
     contents = await file.read()
     image = Image.open(BytesIO(contents))
-    features_image = image_processing.get_image_vectors(image)
+    features_image = get_image_vectors(image)
     hits = search(
         conf.qdrant_collection,
         features_image.image_embeds_proj[:,0,:].cpu().numpy()[0]

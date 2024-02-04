@@ -59,7 +59,7 @@ def run_indexing(dir):
     # iterat all files in thee destination
     for file in glob.iglob(f"{data_path}/**", recursive=True):
         file = pathlib.Path(file)
-        if not file.is_file():
+        if not file.is_file() or file.suffix == '.csv':
             continue
 
         resource_path = file.relative_to(data_path)

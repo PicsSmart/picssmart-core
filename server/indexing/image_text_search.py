@@ -28,6 +28,8 @@ async def vectorizing_images(task_dir):
     data = []
     for item in content:
         image_path = os.path.join(folder_path, item["path"])
+        if image_path.lower().endswith('csv'):
+            continue
         record = {
             '_id': str(item["_id"]),
             'path': item["path"],

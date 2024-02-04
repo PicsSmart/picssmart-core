@@ -8,19 +8,14 @@ from multiprocessing import Event as MPEvent
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import os
-from dotenv import load_dotenv
+from server.utils import task_manager
+
 
 from server import CWD, thread_pool_executor, process_pool_executor
 
 
 from server.db import async_client, client
 from server.routers import albums_router, media_router, faces_router, core_features_router
-from server.indexing import image_captioning
-from server.indexing import face_detection
-from server.indexing import file_indexer
-from server.indexing import face_clustering
-from server.indexing import image_text_search
 from server.jobs import scheduler
 
 LOG = logging.getLogger(__name__)
@@ -34,20 +29,6 @@ async_client.picssmart.albums.create_index("parentAlbumIds")
 async_client.picssmart.albums.create_index("parentAlbumId")
 async_client.picssmart.media.create_index("path", unique=False)
 async_client.picssmart.media.create_index("albumIds")
-
-
-def run_each_task(cwd, thread_killer, process_killer):
-    if not thread_killer.is_set():
-        file_indexer.run_indexing(CWD)
-    if not thread_killer.is_set():
-        face_detection.run_face_detection(cwd, process_killer)
-    if not thread_killer.is_set():
-        face_clustering.run_face_clustering(cwd, thread_killer)
-    if not thread_killer.is_set():
-        image_captioning.run_image_captioning(cwd, process_killer)
-    if not thread_killer.is_set():
-        image_text_search.run_text_search(cwd, process_killer)
-    pass
 
 
 async def end_tasks():
@@ -72,7 +53,7 @@ async def start_tasks():
     loop = asyncio.get_running_loop()
     executor = ThreadPoolExecutor(max_workers=8)
     BKG_TASKS["TASKS_WATERFALL"] = loop.run_in_executor(
-        executor, run_each_task, CWD, TASK_KILL_THREADING, TASK_KILL_MPROCESSING
+        executor, task_manager.run_each_task, CWD, TASK_KILL_THREADING, TASK_KILL_MPROCESSING
     )
 
 

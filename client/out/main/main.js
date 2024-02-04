@@ -4,6 +4,23 @@ const require$$1 = require("path");
 const require$$0 = require("fs");
 const require$$2 = require("os");
 const require$$3 = require("crypto");
+function _interopNamespaceDefault(e) {
+  const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
+  if (e) {
+    for (const k in e) {
+      if (k !== "default") {
+        const d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: () => e[k]
+        });
+      }
+    }
+  }
+  n.default = e;
+  return Object.freeze(n);
+}
+const require$$1__namespace = /* @__PURE__ */ _interopNamespaceDefault(require$$1);
 var main$1 = { exports: {} };
 const name = "dotenv";
 const version$1 = "16.4.1";
@@ -377,12 +394,31 @@ var cliOptions = function optionMatcher(args) {
   );
 })();
 let mainWindow;
+async function handleFolderSelect() {
+  const { canceled, filePaths } = await electron.dialog.showOpenDialog({
+    properties: ["openDirectory"]
+  });
+  if (!canceled) {
+    return filePaths[0];
+  }
+  return void 0;
+}
 function createWindow() {
-  mainWindow = new electron.BrowserWindow({});
+  mainWindow = new electron.BrowserWindow({
+    width: 2e3,
+    height: 980,
+    autoHideMenuBar: true,
+    webPreferences: {
+      preload: require$$1__namespace.join(__dirname, "../preload/preload.js"),
+      webSecurity: false
+    }
+  });
   mainWindow.loadURL("http://localhost:5173");
+  mainWindow.webContents.openDevTools();
   mainWindow.on("closed", () => mainWindow = null);
 }
 electron.app.whenReady().then(() => {
+  electron.ipcMain.handle("dialog:openFolder", handleFolderSelect);
   createWindow();
 });
 electron.app.on("window-all-closed", () => {

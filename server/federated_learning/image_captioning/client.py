@@ -4,7 +4,7 @@ import torch
 from server import conf
 
 from server.federated_learning.image_captioning.Model import model, test, train
-# from server.federated_learning.image_captioning.CaptioningDataset import train_dataloader, valid_dataloader
+from server.federated_learning.image_captioning.CaptioningDataset import train_dataloader, valid_dataloader
 
 from collections import OrderedDict
 
@@ -35,9 +35,8 @@ class FlowerClient(fl.client.NumPyClient):
             return float(loss), len(valid_dataloader), {"accuracy": float(accuracy)}
         
 def start_client():
-    print("Client is started")
-    # fl.client.start_numpy_client(
-    #     server_address=conf.server_address_federated, 
-    #     client=FlowerClient(),
-    #     grpc_max_message_length=2000000000
-    # )
+    fl.client.start_numpy_client(
+        server_address=conf.server_address_federated, 
+        client=FlowerClient(),
+        grpc_max_message_length=2000000000
+    )

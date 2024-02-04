@@ -18,13 +18,13 @@ class ImageCaptioningDataset(Dataset):
         encoding = {k:v.squeeze() for k,v in encoding.items()}
         return encoding
 
-# datafolder = "" # TODO: Add the Dataset folder path here
-# folder_path = os.path.join(os.getcwd(), datafolder)
-# dataset = load_dataset("imagefolder", data_dir=folder_path)["train"].train_test_split(test_size=0.2)
+datafolder = "data"
+folder_path = os.path.join(os.getcwd(), datafolder)
+dataset = load_dataset("imagefolder", data_dir=folder_path)["train"].train_test_split(test_size=0.2)
 
-# # Create Dataset objects for training and validation
-# train_dataset = ImageCaptioningDataset(dataset['train'], processor)
-# valid_dataset = ImageCaptioningDataset(dataset['test'], processor)
+# Create Dataset objects for training and validation
+train_dataset = ImageCaptioningDataset(dataset['train'], processor)
+valid_dataset = ImageCaptioningDataset(dataset['test'], processor)
 
-# train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=2)
-# valid_dataloader = DataLoader(valid_dataset, shuffle=True, batch_size=2)
+train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=2)
+valid_dataloader = DataLoader(valid_dataset, shuffle=True, batch_size=2)

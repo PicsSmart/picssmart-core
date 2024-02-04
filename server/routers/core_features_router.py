@@ -113,3 +113,26 @@ async def mount_album(request: Request):
 
     return JSONResponse(content={"message": "Album is mounted and images are being processed."},
                         status_code = status.HTTP_202_ACCEPTED)
+
+@router.get("/scenes")
+async def scenes_get():
+    SCENES = conf.supported_scene_types
+    scenes_obj = map(lambda scene: {scene: {"count": 0, "cover": "https://images.unsplash.com/photo-1573497019787-4e6f6e8f7a0d"}}, SCENES)
+
+    result_json = {"scenes": list(scenes_obj)}
+    return JSONResponse(content=result_json)
+
+@router.get("/scenes/{scene}")
+async def scenes_get(scene: str):
+    if scene not in conf.supported_scene_types:
+        return JSONResponse(content={"error": "Scene not found"}, status_code=404)
+
+    image = Image.open(BytesIO(open(f"server/routers/assets/{scene}.jpg", "rb").read()))
+    # print(image)
+    features_image = image_processing.get_image_vectors(image)
+    hits = search(
+        conf.qdrant_collection,
+        features_image.image_embeds_proj[:,0,:].cpu().numpy()[0]
+    )
+    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
+    return JSONResponse(content=result_json)

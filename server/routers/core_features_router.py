@@ -112,4 +112,4 @@ async def mount_album(request: Request):
     )
 
     return JSONResponse(content={"message": "Album is mounted and images are being processed."},
-                        status = status.HTTP_202_ACCEPTED)
+                        status_code = status.HTTP_202_ACCEPTED)

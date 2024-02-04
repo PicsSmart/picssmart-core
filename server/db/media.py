@@ -21,8 +21,8 @@ async def get_media_by_id(query: Any, projection: Any):
     return result
 
 
-async def get_media(query: Any, projection: Any, sort: Any, skip: int, limit: int):
-    result = await client.picssmart.media.find(query, projection=projection).sort(sort).skip(skip).limit(limit).to_list(None)
+async def get_media(query: Any, projection: Any, sort: Any, skip: int):
+    result = await client.picssmart.media.find(query, projection=projection).sort(sort).skip(skip).to_list(None)
     return result
 
 

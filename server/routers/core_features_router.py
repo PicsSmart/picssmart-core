@@ -19,6 +19,8 @@ from server.vectorDB import search, scroll, get_image_vectors, get_text_vectors
 from server.db import media
 from server.routers import WickORJSONResponse
 
+from skimage.filters import threshold_otsu
+import numpy as np
 
 from pydantic import BaseModel
 from fastapi import Request
@@ -43,7 +45,10 @@ async def text_search(caption_input: Caption, sort: str = "name", skip: int = 0,
             conf.qdrant_collection,
             features_text.text_embeds_proj[:,0,:].cpu().numpy()[0],
     )
-    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
+    similarity_scores = [hit.score for hit in hits]
+    threshold = threshold_otsu(np.array(similarity_scores))
+    filtered_hits = filter(lambda hit: hit.score > threshold, hits)
+    result_json = {"results": list(map(lambda hit:{"payload": hit.payload, "score": hit.score}, filtered_hits))}
 
     return JSONResponse(content=result_json)
 
@@ -57,7 +62,10 @@ async def similarity_search_get(imageId, sort: str = "name", skip: int = 0, limi
         )
     else:
         hits = []
-    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
+    similarity_scores = [hit.score for hit in hits]
+    threshold = threshold_otsu(np.array(similarity_scores))
+    filtered_hits = filter(lambda hit: hit.score > threshold, hits)
+    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, filtered_hits))}
 
     return JSONResponse(content=result_json)
 
@@ -70,7 +78,10 @@ async def similarity_search_get_post(file: UploadFile = File(...)):
         conf.qdrant_collection,
         features_image.image_embeds_proj[:,0,:].cpu().numpy()[0]
     )
-    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
+    similarity_scores = [hit.score for hit in hits]
+    threshold = threshold_otsu(np.array(similarity_scores))
+    filtered_hits = filter(lambda hit: hit.score > threshold, hits)
+    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, filtered_hits))}
     return JSONResponse(content=result_json)
 
 def copy_images_recursively(source, destination):
@@ -117,8 +128,6 @@ async def mount_album(request: Request):
 @router.get("/scenes")
 async def scenes_get():
     SCENES = conf.supported_scene_types
-    # scenes_obj = map(lambda scene: {scene: {"count": 0, "cover": "https://images.unsplash.com/photo-1573497019787-4e6f6e8f7a0d"}}, SCENES)
-
     result_json = {"scenes": list(SCENES)}
     return JSONResponse(content=result_json)
 
@@ -139,11 +148,14 @@ async def scenes_get(scene: str):
         return JSONResponse(content={"error": "Scene not found"}, status_code=404)
 
     image = Image.open(BytesIO(open(f"server/routers/assets/{scene}.jpg", "rb").read()))
-    # print(image)
+
     features_image = get_image_vectors(image)
     hits = search(
         conf.qdrant_collection,
         features_image.image_embeds_proj[:,0,:].cpu().numpy()[0]
     )
-    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, hits))}
+    similarity_scores = [hit.score for hit in hits]
+    threshold = threshold_otsu(np.array(similarity_scores))
+    filtered_hits = filter(lambda hit: hit.score > threshold, hits)
+    result_json = {"results": list(map(lambda hit: {"payload": hit.payload, "score": hit.score}, filtered_hits))}
     return JSONResponse(content=result_json)

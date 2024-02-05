@@ -46,6 +46,13 @@ async def get_media_by_face_group(group: str, sort: Any, skip: int, limit: int):
 
     return result
 
+async def get_face_group_by_face(face: dict, imageId: str):
+    query = {
+        "face": face,
+        "imageId": ObjectId(imageId)
+    }
+    result = await client.picssmart.faces.find(query).to_list(None)
+    return result
 
 async def get_faces(query: Any, projection: Any, sort: Any, skip: int, limit: int):
     result = (

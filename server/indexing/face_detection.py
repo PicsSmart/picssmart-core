@@ -4,12 +4,15 @@ import gc
 from threading import Thread
 from multiprocessing import Process, Event
 
+import torch
+
 from PIL import Image
 import numpy as np
 
 from server.db import async_client
 from server.conf import (
     face_detection_workers_per_device,
+    face_detection_workers_per_gpu,
     face_detection_batch_size,
     supported_image_types,
     face_detector,
@@ -142,18 +145,32 @@ def wrapper(task_dir, killer):
 
     LOG.debug(f"Face detection needed for {data_loader.get_count()}.")
     workers = []
-
-    for device in ["CPU"]:
-        for worker in range(face_detection_workers_per_device):
-            workers.append(
-                FaceDetectionWorker(
-                    data_loader=data_loader,
-                    worker_id=f"{device}:WORKER{worker}",
-                    device_name=device,
-                    task_dir=task_dir,
-                    killer=killer,
+    device_count = torch.cuda.device_count()
+    
+    if device_count > 0:
+        for device in range(device_count):
+            for worker in range(face_detection_workers_per_gpu):
+                workers.append(
+                    FaceDetectionWorker(
+                        data_loader=data_loader,
+                        worker_id=f"GPU{device}:WORKER{worker}",
+                        device_name=f"cuda:{device}",
+                        task_dir=task_dir,
+                        killer=killer,
+                    )
                 )
-            )
+    else:
+        for device in ["CPU"]:
+            for worker in range(face_detection_workers_per_device):
+                workers.append(
+                    FaceDetectionWorker(
+                        data_loader=data_loader,
+                        worker_id=f"{device}:WORKER{worker}",
+                        device_name=device,
+                        task_dir=task_dir,
+                        killer=killer,
+                    )
+                )
     LOG.debug(f"Running {len(workers)} face detection workers")
     [worker.start() for worker in workers]
     [worker.join() for worker in workers]

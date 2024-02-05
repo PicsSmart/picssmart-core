@@ -18,6 +18,7 @@ qdrant_collection = os.getenv("qdrant_collection")
 
 # gpu/cpu configs
 image_captioning_workers_per_gpu = 4
+face_detection_workers_per_gpu = 4
 face_detection_workers_per_device = 1
 face_detection_batch_size = 128
 face_clustering_workers = cpu_count()

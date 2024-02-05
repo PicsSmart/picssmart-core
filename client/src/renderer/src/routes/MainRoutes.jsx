@@ -14,6 +14,8 @@ const Favourites = Loadable(lazy(() => import('../pages/Favourites')));
 const AlbumView = Loadable(lazy(() => import('../pages/AlbumView')));
 const LabelView = Loadable(lazy(() => import('../pages/LabelView')));
 const Search = Loadable(lazy(() => import('../pages/Search')));
+const Scenaries = Loadable(lazy(() => import('../pages/Scenaries')));
+const Scenary = Loadable(lazy(() => import('../pages/Scenary')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -55,6 +57,14 @@ const MainRoutes = {
     {
       path: 'search/',
       element: <Search />
+    },
+    { 
+      path: 'scenary', 
+      element: <Scenaries />
+    },
+    {
+      path: 'scenary/:name',
+      element: <Scenary />
     }
   ]
 };

@@ -1,14 +1,14 @@
 import logging
 from fastapi import APIRouter, status
 from fastapi import File, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from server import CWD
 from threading import Event as TEvent
 from multiprocessing import Event as MPEvent
 
-from server.utils import image_processing
 from server.utils import task_manager
 
 from PIL import Image
@@ -117,10 +117,21 @@ async def mount_album(request: Request):
 @router.get("/scenes")
 async def scenes_get():
     SCENES = conf.supported_scene_types
-    scenes_obj = map(lambda scene: {scene: {"count": 0, "cover": "https://images.unsplash.com/photo-1573497019787-4e6f6e8f7a0d"}}, SCENES)
+    # scenes_obj = map(lambda scene: {scene: {"count": 0, "cover": "https://images.unsplash.com/photo-1573497019787-4e6f6e8f7a0d"}}, SCENES)
 
-    result_json = {"scenes": list(scenes_obj)}
+    result_json = {"scenes": list(SCENES)}
     return JSONResponse(content=result_json)
+
+@router.get("/scenes/thumbnail/{scene}", response_class=Response)
+async def scenes_get(scene: str):
+    if scene not in conf.supported_scene_types:
+        return JSONResponse(content={"error": "Scene not found"}, status_code=404)
+
+    image = Image.open(BytesIO(open(f"server/routers/assets/{scene}.jpg", "rb").read()))
+    image.thumbnail(conf.thumbnail_resolution)
+    thumbnail_bytes = BytesIO()
+    image.save(thumbnail_bytes, format="JPEG")
+    return Response(content=thumbnail_bytes.getvalue(), media_type="image/jpeg")
 
 @router.get("/scenes/{scene}")
 async def scenes_get(scene: str):
@@ -129,7 +140,7 @@ async def scenes_get(scene: str):
 
     image = Image.open(BytesIO(open(f"server/routers/assets/{scene}.jpg", "rb").read()))
     # print(image)
-    features_image = image_processing.get_image_vectors(image)
+    features_image = get_image_vectors(image)
     hits = search(
         conf.qdrant_collection,
         features_image.image_embeds_proj[:,0,:].cpu().numpy()[0]

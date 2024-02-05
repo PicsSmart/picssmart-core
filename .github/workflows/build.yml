@@ -32,4 +32,4 @@ jobs:
         with:
           context: image/
           push: true
-          tags: ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+          tags: ghcr.io/media-cloud-fyp/picssmart/backend:${{ github.sha }}

@@ -3,13 +3,14 @@ import { getMediaByIdApi, getFullsizeMediaApi } from "../services/apiService/med
 import { similaritySearchById } from "../services/apiService/utilities";
 import { useEffect, useState } from "react";
 import ModalImage from "react-modal-image";
-import { Grid, Paper, Table, TableBody, TableCell, TableRow, Typography, Box, Avatar, TableContainer } from "@mui/material";
+import { Grid, Paper, Table, TableBody, TableCell, TableRow, Typography, Box, Avatar, TableContainer, TextField, IconButton, Chip } from "@mui/material";
 import ImageGallery from "../components/ImageGallery";
 import Tab from "../themes/overrides/Tab";
 import { Face2Rounded } from "@mui/icons-material";
 import {getFaceGroupIdApi, getFacesApi} from "../services/apiService/people"
 import { setFaces } from '../store/reducers/faces';
 import { useDispatch } from "react-redux";
+import { Edit, Check} from '@mui/icons-material'
 
 const PhotoView = () => {
     const {id} = useParams();
@@ -21,6 +22,8 @@ const PhotoView = () => {
     const [photo, setPhoto] = useState(null);
     const [photoDetails, setPhotoDetails] = useState(null);
     const [similarPhotos, setSimilarPhotos] = useState([])
+
+    const [onEdit, setOnEdit] = useState(false)
 
     const getFaces = async () => {
         try {
@@ -96,6 +99,11 @@ const PhotoView = () => {
         navigate(`/people/${groupId}`)
     }
 
+    const handleCaptionClick = ()=>{
+        setOnEdit(false)
+        console.log(photoDetails?.caption)
+    }
+
     useEffect(() => {
         getPhotoDetails()
         getSimilarPhotos()
@@ -118,19 +126,81 @@ const PhotoView = () => {
                 <Grid item md={6}>
                     <Table>
                         <TableBody>
-                            {photoDetails?.hasOwnProperty('caption') && <TableRow
-                                key={`${photoDetails?.name}-caption`}
+                            <TableRow
+                                key={`${photoDetails?.name}-device`}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                <Typography variant="h5">Generated caption</Typography>
+                                    <Typography variant="h5">Device</Typography>
                                 </TableCell>
                                 <TableCell align="left">
-                                <Typography variant="h6">{photoDetails?.caption}</Typography>
+                                    <Typography variant="h6">iPhone 13 pro max</Typography>
                                 </TableCell>
-                            </TableRow>}
+                            </TableRow>
+                            <TableRow
+                                key={`${photoDetails?.name}-resolution`}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    <Typography variant="h5">Resolution</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography variant="h6">4032 x 3024 , 9.4 MB</Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow
+                                key={`${photoDetails?.name}-date`}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    <Typography variant="h5">Date</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography variant="h6">Tue, 13th Aug 2023 - 9.35 AM GMT+2</Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow
+                                key={`${photoDetails?.name}-type`}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    <Typography variant="h5">Image Type</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography variant="h6">JPEG/JPG</Typography>
+                                </TableCell>
+                            </TableRow>
                         </TableBody>
                     </Table>
+                </Grid>
+            </Grid>
+            <Box sx={{display:'flex', alignItems:'center'}}>
+                <Typography variant="h4" mt={'1rem'} mb={'1rem'} mr={'0.5rem'}>Generated Caption</Typography>
+                <Chip color="success"  label="Reviewed" variant="filled" size="small" sx={{borderRadius:"15px"}} />
+            </Box>
+            <Grid container sx={{display:"flex", alignItems:"center"}}>
+                <Grid item xs={8}>
+                    <TextField
+                    InputProps={{
+                        readOnly: !onEdit,
+                    }}                    
+                    fullWidth
+                    id="standard-multiline-flexible"
+                    multiline
+                    maxRows={4}
+                    variant="standard"
+                    value={photoDetails?.caption}
+                    onChange={(e)=>{setPhotoDetails(()=>{return {...photoDetails, caption:e.target.value}})}}
+                    />
+                </Grid>
+                <Grid item xs={1} ml={2}>
+                    {onEdit?
+                    <IconButton size="small" color="success" onClick={handleCaptionClick}>
+                        <Check/>
+                    </IconButton>
+                    :<IconButton size="small" color="picsmart" onClick={()=>{setOnEdit(true)}}>
+                        <Edit/>
+                    </IconButton>}
                 </Grid>
             </Grid>
             <Typography variant="h4" mt={'1rem'} mb={'1rem'}>Faces Detected</Typography>

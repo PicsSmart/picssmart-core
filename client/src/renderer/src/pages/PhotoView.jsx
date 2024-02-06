@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router";
-import { getMediaByIdApi, getFullsizeMediaApi } from "../services/apiService/media";
+import { getMediaByIdApi, getFullsizeMediaApi, updateMediaApi } from "../services/apiService/media";
 import { similaritySearchById } from "../services/apiService/utilities";
 import { useEffect, useState } from "react";
 import ModalImage from "react-modal-image";
@@ -9,6 +9,7 @@ import Tab from "../themes/overrides/Tab";
 import { Face2Rounded } from "@mui/icons-material";
 import {getFaceGroupIdApi, getFacesApi} from "../services/apiService/people"
 import { setFaces } from '../store/reducers/faces';
+import { updateMedia } from "../store/reducers/media";
 import { useDispatch } from "react-redux";
 import { Edit, Check} from '@mui/icons-material'
 
@@ -92,6 +93,19 @@ const PhotoView = () => {
         }
     }
 
+    const updateCaption = async (data, id) => {
+        try{
+            // console.log('here')
+            setLoading(true)
+            const response = await updateMediaApi(id, data)
+            console.log(response.data)
+        }catch(exception){
+            setError(exception)
+        }finally{
+            setLoading(false)
+        }
+    }
+
     const handleAvatarClick = async (face, id) => {
         const groupId = await getFaceGroupId(face, id)
         // console.log(groupId)
@@ -101,7 +115,22 @@ const PhotoView = () => {
 
     const handleCaptionClick = ()=>{
         setOnEdit(false)
-        console.log(photoDetails?.caption)
+        // console.log(photoDetails?.caption)
+        updateCaption(
+            {
+                caption:photoDetails?.caption,
+                userReviewed:true
+            }, id)
+        getPhotoDetails()
+        dispatch(updateMedia(
+            {
+                id:id, 
+                media:{
+                    caption:photoDetails?.caption, 
+                    userReviewed:true
+                }
+            }
+        ))
     }
 
     useEffect(() => {
@@ -176,7 +205,7 @@ const PhotoView = () => {
             </Grid>
             <Box sx={{display:'flex', alignItems:'center'}}>
                 <Typography variant="h4" mt={'1rem'} mb={'1rem'} mr={'0.5rem'}>Generated Caption</Typography>
-                <Chip color="success"  label="Reviewed" variant="filled" size="small" sx={{borderRadius:"15px"}} />
+                <Chip color={photoDetails?.userReviewed?"success":"error"}  label={photoDetails?.userReviewed?"Reviewed":"Not Reviewed"} variant="filled" size="small" sx={{borderRadius:"15px"}} />
             </Box>
             <Grid container sx={{display:"flex", alignItems:"center"}}>
                 <Grid item xs={8}>

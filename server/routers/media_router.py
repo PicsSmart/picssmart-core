@@ -2,16 +2,20 @@ import logging
 import pathlib
 
 from fastapi import APIRouter
-from fastapi.responses import Response
+from fastapi.responses import Response, JSONResponse
 from bson import ObjectId
+from pydantic import BaseModel
 import asyncio
 
 from server.routers import WickORJSONResponse
-from server.db import media
+from server.db import media, async_client
 from server import CWD, process_pool_executor
 from server.utils import image_processing
 from server.conf import supported_image_types
 
+class MediaDetails(BaseModel):
+    caption: str
+    userReviewed: bool
 
 LOG = logging.getLogger(__name__)
 router = APIRouter()
@@ -73,3 +77,19 @@ async def fetch_media(id: str):
     )
 
     return Response(stream.getvalue(), media_type="image/jpeg")
+
+@router.put("/media/{id}")
+async def media_update(media_details: MediaDetails, id: str):
+    result = async_client.picssmart.media.update_one(
+                    {"_id": ObjectId(id)},
+                    {
+                        "$set": {
+                            "caption": media_details.caption,
+                            "userReviewed": media_details.userReviewed
+                        }
+                    },
+                )
+    # convert the result to JSON serializable format
+    print(result.modified_count)
+    return JSONResponse(content={"message":"Update successful",
+                                 "modified_count": result.modified_count})

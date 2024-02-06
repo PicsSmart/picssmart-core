@@ -2,6 +2,7 @@ import logging
 from fastapi import APIRouter, status
 from fastapi import File, UploadFile
 from fastapi.responses import JSONResponse, Response
+from bson import ObjectId
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor

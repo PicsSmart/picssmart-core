@@ -1,14 +1,15 @@
 // assets
-import { Home, Folder, AccountCircle, Star, Label, Search, InsertPhoto } from '@mui/icons-material';
+import { Home, Folder, AccountCircle, Star, Label, Search, InsertPhoto, CameraAlt } from '@mui/icons-material';
+
 // icons
 const icons = {
-  HomeIcon: Home,
   FolderIcon: Folder,
   AccountCircleIcon: AccountCircle,
   StarIcon: Star,
   LabelIcon: Label,
   SearchIcon: Search,
-  InsertPhotoIcon: InsertPhoto
+  InsertPhotoIcon: InsertPhoto,
+  CameraAltIcon: CameraAlt
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
@@ -18,11 +19,11 @@ const pages = {
   type: 'group',
   children: [
     {
-      id: 'home1',
-      title: 'Home',
+      id: 'photos1',
+      title: 'Photos',
       type: 'item',
       url: '/',
-      icon: icons.HomeIcon,
+      icon: icons.CameraAltIcon,
       target: false
     },
     {

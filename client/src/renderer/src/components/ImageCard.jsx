@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Grid, IconButton, Box } from '@mui/material';
 import { Star, StarOutline, CalendarMonth, PhotoCamera, LocationOn, Description } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
 
 const ContentHeader = ({ image, fav, handleFav }) => {
   // const labels = image.labels.join(', ');
@@ -69,6 +70,7 @@ const ContentBody = ({ image }) => {
 };
 
 export default function ImageCard({ image }) {
+  const navigate = useNavigate();
   const [fav, setFav] = React.useState(false);
   const handleFav = () => {
     setFav(!fav);
@@ -80,9 +82,13 @@ export default function ImageCard({ image }) {
     // }))
   };
 
+  const handleClick = () => {
+    navigate(`/${image._id}`);
+  }
+
   return (
     <Card sx={{ width: 280 }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClick}>
         <CardMedia component="img" image={`http://127.0.0.1:8000/thumbnail/${image?._id}`} alt="image" height="140" />
         <CardContent m="4">
           <ContentHeader image={image} fav={fav} handleFav={handleFav} />

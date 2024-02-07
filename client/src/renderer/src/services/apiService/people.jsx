@@ -3,6 +3,7 @@ import axiosProvider from ".";
 const getFacesUrl = 'http://127.0.0.1:8000/faces'
 const getThumbnailUrl = 'http://127.0.0.1:8000/thumbnail/:id'
 const getFaceGroupImagesUrl = 'http://127.0.0.1:8000/faces/:id'
+const getFaceGroupIdUrl = 'http://127.0.0.1:8000/faces/group'
 
 export async function getFacesApi(){  
     try{
@@ -25,6 +26,15 @@ export async function getThumbnailApi(id){
 export async function getFaceGroupImagesApi(id){
     try{
         const response = await axiosProvider.get(getFaceGroupImagesUrl.replace(':id', id))
+        return Promise.resolve(response)
+    }catch(exception){
+        return Promise.reject(exception)
+    }
+}
+
+export async function getFaceGroupIdApi(face, id){
+    try{
+        const response = await axiosProvider.post(getFaceGroupIdUrl, {face:face, imageId:id})
         return Promise.resolve(response)
     }catch(exception){
         return Promise.reject(exception)

@@ -65,7 +65,8 @@ class CaptioningWorker(Thread):
                         "$set": {
                             "caption": "\n".join(
                                 [caption.capitalize() for caption in captions]
-                            )
+                            ),
+                            "userReviewed": False,
                         }
                     },
                 )

@@ -20,7 +20,13 @@ class ImageCaptioningDataset(Dataset):
 
 def load_dataloaders():
     datafolder = "data"
-    folder_path = os.path.join(os.getcwd(), datafolder)
+    rootPath = os.getcwd()
+    index = os.getcwd().find("/server")
+    if index != -1:
+        basPath = rootPath[:index]
+    else:
+        basPath = rootPath
+    folder_path = os.path.join(basPath, datafolder)
     dataset = load_dataset("imagefolder", data_dir=folder_path)["train"].train_test_split(test_size=0.2)
     dataset = dataset.filter(lambda data: data['userReviewed']==True).remove_columns(['userReviewed'])
 

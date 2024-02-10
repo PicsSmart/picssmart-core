@@ -144,3 +144,7 @@ data
 
 # face clusters
 face_groups
+
+# models
+captioning_model
+captioning_processor

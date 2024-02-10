@@ -36,7 +36,7 @@ def test(model, loader):
     dataset_size = 0
     running_loss = 0.0
     correct_predictions = 0
-    total_predictions = 0
+    mis_predictions = 0
     
     for idx, batch in enumerate(loader):
         # if idx == 3:
@@ -52,7 +52,6 @@ def test(model, loader):
                         pixel_values=pixel_values, 
                         labels=input_ids)
         logits = outputs.decoder_logits
-        
         loss = outputs.loss
         print(f"Loss in batch {idx}: {loss.item()}")
         
@@ -60,10 +59,10 @@ def test(model, loader):
         dataset_size += batch_size
         predictions = torch.argmax(logits, dim=-1)
         correct_predictions += torch.sum(predictions == input_ids).item()
-        total_predictions += batch_size
-                
-        epoch_accuracy = correct_predictions / total_predictions
+        mis_predictions += torch.sum(predictions != input_ids).item()
+        epoch_accuracy = correct_predictions / (correct_predictions+mis_predictions)
         epoch_loss = running_loss / dataset_size
+        print("Epoch Loss:", epoch_loss, "Epoch Accuracy:", epoch_accuracy)
     
     gc.collect()
     

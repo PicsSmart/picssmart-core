@@ -3,6 +3,7 @@ FROM condaforge/mambaforge:23.3.1-0
 # Set the working directory in the container
 WORKDIR /app
 
+RUN apt-get update
 RUN apt-get install build-essential -y
 
 # Install dependencies

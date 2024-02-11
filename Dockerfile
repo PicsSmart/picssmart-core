@@ -3,6 +3,8 @@ FROM condaforge/mambaforge:23.3.1-0
 # Set the working directory in the container
 WORKDIR /app
 
+RUN apt-get install build-essential -y
+
 # Install dependencies
 RUN mamba create -n picssmart transformers python=3.10 pytorch fairscale dask-mongo torchaudio pytorch-cuda=11.7 iopath cudatoolkit=11.7  -c pytorch -c nvidia -c iopath -c conda-forge -y
 SHELL ["/bin/bash", "-c"]

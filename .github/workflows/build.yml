@@ -5,9 +5,7 @@ permissions:
     packages: write
   
 on:
-    push:
-      branches:
-        - dockerizing
+  workflow_dispatch:
 
 jobs:
   build-and-push-image:

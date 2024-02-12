@@ -24,6 +24,7 @@ RUN pip install uvicorn
 RUN pip install flwr
 RUN pip install salesforce-lavis
 RUN pip install qdrant-client
+RUN pip install apscheduler
 RUN pip cache purge
 
 # Copy the rest of the application code into the container

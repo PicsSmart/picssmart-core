@@ -13,7 +13,7 @@ model, vis_processors, txt_processors = load_model_and_preprocess(name="blip_fea
 
 def create_collection(collection_name):
     try:
-        picsSmartCollection = client.create_collection(
+        picsSmartCollection = client.recreate_collection(
             collection_name=collection_name,
             vectors_config=models.VectorParams(size=256, distance=models.Distance.COSINE)
         )

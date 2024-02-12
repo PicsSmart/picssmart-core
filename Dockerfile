@@ -22,7 +22,9 @@ RUN pip install insightface
 RUN pip install onnxruntime
 RUN pip install uvicorn
 RUN pip install flwr
+RUN pip install salesforce-lavis
 RUN pip install qdrant-client
+RUN pip cache purge
 
 # Copy the rest of the application code into the container
 COPY . .

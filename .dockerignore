@@ -21,3 +21,5 @@ data/
 face-groups/
 mongo-data/
 qdrant-data/
+
+client/

@@ -1,6 +1,5 @@
 // assets
-import { Home, Folder, AccountCircle, Star, Label, Search, InsertPhoto, CameraAlt } from '@mui/icons-material';
-
+import { Home, Folder, AccountCircle, Star, Label, Search, InsertPhoto, CameraAlt, ImageSearch } from '@mui/icons-material';
 // icons
 const icons = {
   FolderIcon: Folder,
@@ -9,7 +8,8 @@ const icons = {
   LabelIcon: Label,
   SearchIcon: Search,
   InsertPhotoIcon: InsertPhoto,
-  CameraAltIcon: CameraAlt
+  CameraAltIcon: CameraAlt,
+  ImageSearchIcon: ImageSearch
 };
 
 // ==============================|| MENU ITEMS - EXTRA PAGES ||============================== //
@@ -50,11 +50,18 @@ const pages = {
       icon: icons.InsertPhotoIcon,
     },
     {
-      id: 'search1',
-      title: 'Search',
+      id: 'text-search1',
+      title: 'Text Search',
       type: 'item',
       url: '/search',
       icon: icons.SearchIcon,
+    },
+    {
+      id: 'image-search1',
+      title: 'Image Search',
+      type: 'item',
+      url: '/image-search',
+      icon: icons.ImageSearchIcon
     }
     // {
     //   id: 'favourites1',

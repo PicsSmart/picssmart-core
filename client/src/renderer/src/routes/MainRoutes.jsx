@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // project import
 import Loadable from '../components/Loadable';
 import MainLayout from '../layout/MainLayout';
+import { ImageSearch, LineAxis } from '@mui/icons-material';
 
 // render - dashboard
 const Home = Loadable(lazy(() => import('../pages/Home')));
@@ -17,6 +18,7 @@ const Search = Loadable(lazy(() => import('../pages/Search')));
 const Scenaries = Loadable(lazy(() => import('../pages/Scenaries')));
 const Scenary = Loadable(lazy(() => import('../pages/Scenary')));
 const PhotoView = Loadable(lazy(() => import('../pages/PhotoView')));
+const ImageSearchView = Loadable(lazy(() => import('../pages/ImageSearch')))
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -70,6 +72,10 @@ const MainRoutes = {
     {
       path: '/:id',
       element: <PhotoView />
+    },
+    {
+      path: '/image-search',
+      element: <ImageSearchView />
     }
   ]
 };

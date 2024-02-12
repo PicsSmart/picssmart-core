@@ -145,12 +145,10 @@ const PhotoView = () => {
             </Box>
             <Grid container columnSpacing={3}>
                 <Grid item md={6} xs={12}>
-                    <Paper>
-                        <ModalImage
+                        <ModalImage 
                         small={`http://127.0.0.1:8000/fullsize/${id}`}
                         large={`http://127.0.0.1:8000/fullsize/${id}`}
                         />
-                    </Paper>
                 </Grid>
                 <Grid item md={6}>
                     <Table>

@@ -21,9 +21,9 @@ const ContentHeader = ({ image, fav, handleFav }) => {
         </Typography> */}
       </Grid>
       <Grid xs={2} sx={{ display: 'flex', alignItems: 'top', justifyContent: 'right' }}>
-        <IconButton aria-label="favourites" color="picsmart" onClick={handleFav}>
+        {/* <IconButton aria-label="favourites" color="picsmart" onClick={handleFav}>
           {fav ? <Star /> : <StarOutline />}
-        </IconButton>
+        </IconButton> */}
       </Grid>
     </Grid>
   );

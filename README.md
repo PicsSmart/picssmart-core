@@ -15,7 +15,7 @@ This repository contains the main backend service of the **PicsSmart** applicati
 ./setup-env.sh <conda-env-name>
 ```
 
-> You may define the name of the conda environment you want to create. If not provided, it will create a new environment with the name `picsmart`.
+> You may define the name of the conda environment you want to create.
 
 - With this script, all the dependencies will be installed and below required services will be up and running as docker containers.
     - MongoDB

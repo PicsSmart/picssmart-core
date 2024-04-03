@@ -139,9 +139,6 @@ mongo-data
 # vector data path
 qdrant-data
 
-# album data path
-data
-
 # face clusters
 face_groups
 

@@ -1,75 +1,55 @@
 # PicsSmart
 
+This repository contains the main backend service of the **PicsSmart** application.
+
+# Prerequisites
+
+- Conda
+- Docker
+
 # Setup
 
-## Create the conda environment
+## Install the dependencies and enabling services
 
 ```bash
-conda env create --prefix=<prefix-name> -f picssmart-env.yaml
+./setup-env.sh <conda-env-name>
 ```
 
-- You can determine the prefix by running `conda env list`. It will be as follows.
-`/home/banula/mambaforge/envs/picssmart`
+> You may define the name of the conda environment you want to create. If not provided, it will create a new environment with the name `picsmart`.
 
-## post install
-
-```bash
-python -m spacy download en_core_web_sm
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
-```
+- With this script, all the dependencies will be installed and below required services will be up and running as docker containers.
+    - MongoDB
+    - Mongo Express (Optional)
+    - Qdrant Vector Database
 
 # Development
 
-## Docker for mongodb   
-
-```bash
-export UID=$(id -u) 
-export GID=$(id -g)
-
-docker-compose up -d mongo
-docker-compose up -d mongo-express
-```
-
-## Running the dev server
+## How to run the server
 
 - Add a `.env` file as in below format inside the `server` folder
 
 ```.env
-mongo_db_host="localhost"
-mongo_db_port=27017
-mongo_db_user=<db_user>
-mongo_db_password=<db_password>
-mongo_db_database=<db_name>
-mongo_db_auth=<db_auth>
+mongo_db_host = "localhost"
+mongo_db_port = 27017
+mongo_db_user = "picssmartadmin"
+mongo_db_password = "picssmartpw"
+mongo_db_database = "picssmart"
+mongo_db_auth = "admin"
 
-qdrant_host=<qdrant_host>
-qdrant_port=<qdrant_port>
-qdrant_collection=<qdrant_collection>
+qdrant_host="localhost"
+qdrant_port=6333
+qdrant_collection="picssmart"
+
+server_address_federated="127.0.0.1:8080" # Address of the federated server
 ```
+- After that server can be run using below command
 
-- Create a folder called `data` and mount or copy some albums as folders and nested folders
-
-```
+```bash
 uvicorn server.__main__:create_app --factory --reload
 ```
 
-# Deployment
-
-```
-python -m server
-```
-
-
 # Clean DB entries
-
+- To clean the database entries, run the below command
 ```bash
 python clean.py
 ```
-
-# Running the Client
-
-- Add a `.env` file as in below format
-```.env
-REACT_APP_BASE_URL=<server url>
-```
-- Run `npm run dev`

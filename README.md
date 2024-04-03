@@ -2,12 +2,10 @@
 
 This repository contains the core backend service of the **PicsSmart** application.
 
-# Prerequisites
+## Prerequisites
 
 - Conda
 - Docker
-
-# Setup
 
 ## Install the dependencies and enabling services
 
@@ -21,8 +19,6 @@ This repository contains the core backend service of the **PicsSmart** applicati
     - MongoDB
     - Mongo Express (Optional)
     - Qdrant Vector Database
-
-# Development
 
 ## How to run the server
 
@@ -48,7 +44,7 @@ server_address_federated="127.0.0.1:8080" # Address of the federated server
 uvicorn server.__main__:create_app --factory --reload
 ```
 
-# Clean DB entries
+## Clean DB entries
 - To clean the database entries, run the below command
 ```bash
 python clean.py

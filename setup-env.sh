@@ -2,7 +2,7 @@
 set -o pipefail
 
 install_dependencies() {
-    local env_name="${1:-picssmart}"
+    local env_name="$1"
 
     # Create conda environment
     mamba create -n $env_name transformers python=3.10 pytorch fairscale dask-mongo torchaudio pytorch-cuda=11.7 iopath cudatoolkit=11.7 -c pytorch -c nvidia -c iopath -c conda-forge -y

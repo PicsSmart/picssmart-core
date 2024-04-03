@@ -1,6 +1,6 @@
-# PicsSmart
+# PicsSmart-Core
 
-This repository contains the main backend service of the **PicsSmart** application.
+This repository contains the core backend service of the **PicsSmart** application.
 
 # Prerequisites
 

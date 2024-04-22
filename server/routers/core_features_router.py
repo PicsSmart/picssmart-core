@@ -19,6 +19,7 @@ from server import conf
 from server.vectorDB import search, scroll, get_image_vectors, get_text_vectors
 from server.db import media
 from server.routers import WickORJSONResponse
+from server.jobs import message_producer
 
 from skimage.filters import threshold_otsu
 import numpy as np
@@ -132,8 +133,13 @@ async def mount_album(request: Request):
 
     loop = asyncio.get_running_loop()
     executor = ThreadPoolExecutor(max_workers=8)
+    callback_args = (
+        conf.kafka_topic,
+        {"status": "processed"}
+    )
     task_waterfall = loop.run_in_executor(
-        executor, task_manager.run_each_task, CWD, TEvent(), MPEvent()
+        executor, task_manager.run_each_task, CWD, TEvent(), MPEvent(),
+        message_producer.send_message, callback_args
     )
 
     return JSONResponse(content={"message": "Album is mounted and images are being processed."},

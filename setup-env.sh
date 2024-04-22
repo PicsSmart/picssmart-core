@@ -16,7 +16,7 @@ install_dependencies() {
         mamba install rapids=23.02 -c rapidsai -c conda-forge -c nvidia -y
 
         # # Install pip packages
-        pip install "fastapi[all]" pillow pillow-heif einops pycocoevalcap cryptography==38.0.4 motor pymongo pyyaml networkx omegaconf timm decord opencv-python webdataset jupyterlab torchvision tensorflow gdown spacy insightface onnxruntime uvicorn flwr salesforce-lavis qdrant-client apscheduler
+        pip install "fastapi[all]" pillow pillow-heif einops pycocoevalcap cryptography==38.0.4 motor pymongo pyyaml networkx omegaconf timm decord opencv-python webdataset jupyterlab torchvision tensorflow gdown spacy insightface onnxruntime uvicorn flwr salesforce-lavis qdrant-client apscheduler kafka-python
         echo "Dependencies installed successfully in the $env_name conda environment"
     fi
 }

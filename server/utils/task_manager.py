@@ -4,7 +4,7 @@ from server.indexing import file_indexer
 from server.indexing import face_clustering
 from server.indexing import image_text_search
 
-def run_each_task(cwd, thread_killer, process_killer):
+def run_each_task(cwd, thread_killer, process_killer, callback = None, callback_args = None):
     if not thread_killer.is_set():
         file_indexer.run_indexing(cwd)
     if not thread_killer.is_set():
@@ -15,4 +15,5 @@ def run_each_task(cwd, thread_killer, process_killer):
         image_captioning.run_image_captioning(cwd, process_killer)
     if not thread_killer.is_set():
         image_text_search.run_text_search(cwd, process_killer)
-    pass
+    if  not thread_killer.is_set() and callback and callback_args:
+        callback(*callback_args)

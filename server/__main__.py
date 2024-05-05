@@ -17,6 +17,7 @@ from server import CWD, thread_pool_executor, process_pool_executor
 from server.db import async_client, client
 from server.routers import albums_router, media_router, faces_router, core_features_router
 from server.jobs import scheduler
+from server.jobs import message_producer
 
 LOG = logging.getLogger(__name__)
 BKG_TASKS = dict()

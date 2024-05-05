@@ -19,6 +19,7 @@ from server import conf
 from server.vectorDB import search, scroll, get_image_vectors, get_text_vectors
 from server.db import media
 from server.routers import WickORJSONResponse
+from server.jobs import message_producer
 
 from skimage.filters import threshold_otsu
 import numpy as np
@@ -28,6 +29,8 @@ from fastapi import Request
 import shutil
 import os
 from pathlib import Path
+import zipfile
+import tempfile
 
 LOG = logging.getLogger(__name__)
 router = APIRouter()
@@ -108,23 +111,54 @@ def copy_images_recursively(source, destination):
 
 @router.post("/mount_album")
 async def mount_album(request: Request):
-    reqBody = await request.json()
-    source_folder = reqBody['folderPath']
-    folderName = source_folder.split('/')[-1]
+    reqBody = await request.form()
+    if 'folder' not in reqBody:
+        raise JSONResponse(status_code=400, detail="No valid folder is provided")
+    
+    zipped_folder = reqBody['folder']
+    temp_folder = extract_zip_to_temp_folder(zipped_folder)
+    for root, dirs, files in os.walk(temp_folder):
+        if dirs:
+            source_folder = os.path.join(root, dirs[0])
+            break
+
+    folderName = os.path.basename(source_folder)
 
     relative_path = os.path.join(os.path.dirname(__file__), '../../data/', folderName)
     destination_folder = Path(relative_path).resolve()
 
     copy_images_recursively(source_folder, destination_folder)
+    
+    shutil.rmtree(temp_folder)
 
     loop = asyncio.get_running_loop()
     executor = ThreadPoolExecutor(max_workers=8)
+    callback_args = (
+        conf.kafka_topic,
+        {"status": "processed"}
+    )
     task_waterfall = loop.run_in_executor(
-        executor, task_manager.run_each_task, CWD, TEvent(), MPEvent()
+        executor, task_manager.run_each_task, CWD, TEvent(), MPEvent(),
+        message_producer.send_message, callback_args
     )
 
     return JSONResponse(content={"message": "Album is mounted and images are being processed."},
                         status_code = status.HTTP_202_ACCEPTED)
+
+def extract_zip_to_temp_folder(zip_file):
+    try:
+        suffix = Path(zip_file.filename).suffix
+        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+            shutil.copyfileobj(zip_file.file, tmp)
+            tmp_path = Path(tmp.name)
+    finally:
+        zip_file.file.close()
+    temp_folder = tempfile.mkdtemp()
+    with zipfile.ZipFile(tmp_path, 'r') as zip_ref:
+        zip_ref.extractall(path = temp_folder)
+    
+    os.remove(tmp_path)
+    return temp_folder
 
 @router.get("/scenes")
 async def scenes_get():

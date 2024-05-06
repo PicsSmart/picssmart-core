@@ -19,6 +19,8 @@ This repository contains the core backend service of the **PicsSmart** applicati
     - MongoDB
     - Mongo Express (Optional)
     - Qdrant Vector Database
+    - Kafka Broker
+    - Zookeeper
 
 ## How to run the server
 

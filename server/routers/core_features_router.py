@@ -38,6 +38,9 @@ router = APIRouter()
 class Caption(BaseModel):
     caption: str
 
+@router.get("/health")
+async def health_check():
+    return {"status": "up"}
 
 @router.post("/text-search")
 async def text_search(caption_input: Caption, sort: str = "name", skip: int = 0, limit: int = 100000):

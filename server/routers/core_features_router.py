@@ -135,7 +135,7 @@ async def mount_album(request: Request):
     executor = ThreadPoolExecutor(max_workers=8)
     callback_args = (
         conf.kafka_topic,
-        {"status": "processed"}
+        {"status": folderName}
     )
     task_waterfall = loop.run_in_executor(
         executor, task_manager.run_each_task, CWD, TEvent(), MPEvent(),

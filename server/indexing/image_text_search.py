@@ -4,19 +4,26 @@ import asyncio
 
 from PIL import Image
 import torch
+import numpy as np
 from lavis.models import load_model_and_preprocess
 
 from server import conf
 from server.vectorDB import create_collection, upsert
-from server.db import media
-
-
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from server.db import media, async_client
 
 
 from multiprocessing import Process
 LOG = logging.getLogger(__name__)
+
+def save_vector(_id, featureVector):
+    async_client.picssmart.media.update_one(
+        {"_id": _id},
+        {
+            "$set": {
+                "featureVector": featureVector.tolist()
+            }
+        },
+    )
 
 async def vectorizing_images(task_dir):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -36,12 +43,17 @@ async def vectorizing_images(task_dir):
             'name': item["name"],
             'caption': item["caption"] if "caption" in item else "",
         }
-        raw_image = Image.open(image_path).convert("RGB")
-        image = vis_processors["eval"](raw_image).unsqueeze(0).to(device)
-        sample_img = {"image": image}
         payload.append(record)
-        features_image = model.extract_features(sample_img, mode="image")
-        data.append(features_image.image_embeds_proj[:,0,:].cpu().numpy()[0])
+        if "featureVector" not in item or item["featureVector"] is None:
+            raw_image = Image.open(image_path).convert("RGB")
+            image = vis_processors["eval"](raw_image).unsqueeze(0).to(device)
+            sample_img = {"image": image}
+            features_image = model.extract_features(sample_img, mode="image")
+            featureVector = features_image.image_embeds_proj[:,0,:].cpu().numpy()[0]
+            data.append(featureVector)
+            save_vector(item["_id"], featureVector)
+        else:
+            data.append(np.fromiter(item["featureVector"], dtype=np.float32))
     index = list(range(len(data)))
     return index, data, payload
 

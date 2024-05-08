@@ -1,0 +1,656 @@
+openapi: 3.1.0
+info:
+  title: PicsSmart-Core API
+  version: 0.1.0
+paths:
+  /albums:
+    get:
+      summary: Get Albums
+      operationId: get_albums_albums_get
+      parameters:
+        - name: parent
+          in: query
+          required: false
+          schema:
+            type: string
+            title: Parent
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /albums/{id}:
+    get:
+      summary: Get Album
+      operationId: get_album_albums__id__get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /albums/{id}/media:
+    get:
+      summary: Get Album Media
+      operationId: get_album_media_albums__id__media_get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Id
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /media:
+    get:
+      summary: Get Media
+      operationId: get_media_media_get
+      parameters:
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /media/{id}:
+    get:
+      summary: Get Media By Id
+      operationId: get_media_by_id_media__id__get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      summary: Media Update
+      operationId: media_update_media__id__put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaDetails'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /thumbnail/{id}:
+    get:
+      summary: Fetch Thumbnail
+      operationId: fetch_thumbnail_thumbnail__id__get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Id
+        - name: top
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: integer
+              - type: number
+            default: -1
+            title: Top
+        - name: right
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: integer
+              - type: number
+            default: -1
+            title: Right
+        - name: bottom
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: integer
+              - type: number
+            default: -1
+            title: Bottom
+        - name: left
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: integer
+              - type: number
+            default: -1
+            title: Left
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /fullsize/{id}:
+    get:
+      summary: Fetch Media
+      operationId: fetch_media_fullsize__id__get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Id
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /faces:
+    get:
+      summary: Get Faces
+      operationId: get_faces_faces_get
+      parameters:
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /faces/{group}:
+    get:
+      summary: Get Face By Id
+      operationId: get_face_by_id_faces__group__get
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Group
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /faces/group:
+    post:
+      summary: Get Face Group Id By Face
+      operationId: get_face_group_id_by_face_faces_group_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaceObj'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /health:
+    get:
+      summary: Health Check
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /text-search:
+    post:
+      summary: Text Search
+      operationId: text_search_text_search_post
+      parameters:
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100000
+            title: Limit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Caption'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /similar-search:
+    get:
+      summary: Similarity Search Get
+      operationId: similarity_search_get_similar_search_get
+      parameters:
+        - name: imageId
+          in: query
+          required: true
+          schema:
+            title: Imageid
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
+            title: Sort
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            title: Skip
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100000
+            title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Similarity Search Get Post
+      operationId: similarity_search_get_post_similar_search_post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_similarity_search_get_post_similar_search_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /mount_album:
+    post:
+      summary: Mount Album
+      operationId: mount_album_mount_album_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /scenes:
+    get:
+      summary: Scenes Get
+      operationId: scenes_get_scenes_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /scenes/thumbnail/{scene}:
+    get:
+      summary: Scenes Get
+      operationId: scenes_get_scenes_thumbnail__scene__get
+      parameters:
+        - name: scene
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Scene
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /scenes/{scene}:
+    get:
+      summary: Scenes Get
+      operationId: scenes_get_scenes__scene__get
+      parameters:
+        - name: scene
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Scene
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_similarity_search_get_post_similar_search_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+        - file
+      title: Body_similarity_search_get_post_similar_search_post
+    Caption:
+      properties:
+        caption:
+          type: string
+          title: Caption
+      type: object
+      required:
+        - caption
+      title: Caption
+    FaceCoordinates:
+      properties:
+        left:
+          type: number
+          title: Left
+        top:
+          type: number
+          title: Top
+        right:
+          type: number
+          title: Right
+        bottom:
+          type: number
+          title: Bottom
+      type: object
+      required:
+        - left
+        - top
+        - right
+        - bottom
+      title: FaceCoordinates
+    FaceObj:
+      properties:
+        face:
+          $ref: '#/components/schemas/FaceCoordinates'
+        imageId:
+          type: string
+          title: Imageid
+      type: object
+      required:
+        - face
+        - imageId
+      title: FaceObj
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MediaDetails:
+      properties:
+        caption:
+          type: string
+          title: Caption
+        userReviewed:
+          type: boolean
+          title: Userreviewed
+      type: object
+      required:
+        - caption
+        - userReviewed
+      title: MediaDetails
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError

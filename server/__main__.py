@@ -61,7 +61,12 @@ async def start_tasks():
 
 def create_app():
     LOG.debug(f"RUNNING FROM - {CWD}")
-
+    
+    # Start the UDP listener on a separate thread
+    udp_thread = Thread(target=udp_listener)
+    udp_thread.daemon = True
+    udp_thread.start()
+    
     LOG.debug("Initiating app")
     app = FastAPI()
     app.add_middleware(
@@ -96,7 +101,7 @@ def udp_listener():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((UDP_IP, UDP_PORT))
 
-    print("UDP server started at {}:{}".format(UDP_IP, UDP_PORT))
+    LOG.debug(f"UDP server started at {UDP_IP}:{UDP_PORT}")
 
     while True:
         data, addr = sock.recvfrom(1024)
@@ -105,10 +110,5 @@ def udp_listener():
 
 if __name__ == "__main__":
     app = create_app()
-
-    # Start the UDP listener on a separate thread
-    udp_thread = Thread(target=udp_listener)
-    udp_thread.daemon = True
-    udp_thread.start()
 
     uvicorn.run(app, host="0.0.0.0", port=8000)

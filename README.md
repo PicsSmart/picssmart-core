@@ -43,7 +43,7 @@ server_address_federated="127.0.0.1:8080" # Address of the federated server
 - After that server can be run using below command
 
 ```bash
-uvicorn server.__main__:create_app --factory --reload
+uvicorn server.__main__:create_app --factory --reload --host 0.0.0.0 --port 8000
 ```
 
 ## Clean DB entries

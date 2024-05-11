@@ -9,7 +9,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from server.utils import task_manager
-
+import socket
+from threading import Thread
 
 from server import CWD, thread_pool_executor, process_pool_executor
 
@@ -60,7 +61,12 @@ async def start_tasks():
 
 def create_app():
     LOG.debug(f"RUNNING FROM - {CWD}")
-
+    
+    # Start the UDP listener on a separate thread
+    udp_thread = Thread(target=udp_listener)
+    udp_thread.daemon = True
+    udp_thread.start()
+    
     LOG.debug("Initiating app")
     app = FastAPI()
     app.add_middleware(
@@ -87,8 +93,22 @@ def create_app():
 
     return app
 
+# udp listener for service discovery
+def udp_listener():
+    UDP_IP = "0.0.0.0"
+    UDP_PORT = 5005
+
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind((UDP_IP, UDP_PORT))
+
+    LOG.debug(f"UDP server started at {UDP_IP}:{UDP_PORT}")
+
+    while True:
+        data, addr = sock.recvfrom(1024)
+        response = f"PicsSmart port: 8000"
+        sock.sendto(response.encode(), addr)
 
 if __name__ == "__main__":
     app = create_app()
 
-    uvicorn.run(app)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

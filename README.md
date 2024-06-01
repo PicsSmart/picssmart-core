@@ -2,6 +2,8 @@
 
 This repository contains the core backend service of the **PicsSmart** application.
 
+- API Documentation can be found [here](https://documenter.getpostman.com/view/16402831/2sA3Qwb9qg)
+
 ## Prerequisites
 
 - Conda
